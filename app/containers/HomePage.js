@@ -7,7 +7,7 @@ import * as CounterActions from '../actions/home';
 
 function mapStateToProps(state) {
   console.log('mapStateToProps: explain' , state)
-  return state.explain ? {explain: state.explain} : {explain: ''}
+  return  {explain: state.explain || '', cefr: state.cefr || ''}
 }
 
 function mapDispatchToProps(dispatch) {
