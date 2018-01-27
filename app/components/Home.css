@@ -9,6 +9,7 @@
   position: absolte;
   top: 10px;
   botton: 10px;
+  overflow: auto;
   background-color: 00000
 }
 
@@ -19,3 +20,4 @@
 .container a {
   font-size: 1.4rem;
 }
+

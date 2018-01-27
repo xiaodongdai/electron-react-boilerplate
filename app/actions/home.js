@@ -1,7 +1,7 @@
 // @flow
 import type { stateType } from '../reducers/home'
 import mdict from 'mdict'
-
+import csv from 'csvtojson'
 
 
 type actionType = {
@@ -9,43 +9,78 @@ type actionType = {
   +type: string
 };
 
-
-
-
-export const GET_EXPLAIN= 'GET_EXPLAIN';
-export const GET_CEFR = 'GET_CEFR'
-export const ADD_FREQ = 'ADD_FREQ'
+export const RETRIVED_EXPLAIN= 'RETRIVED_EXPLAIN';
+export const RETRIVED_RANK = 'RETRIVED_RANK'
+export const ADD_WORD = 'ADD_WORD'
+export const SORT_WORDS = 'SORT_WORDS'
 
 // load cefr file
 let cefr_words = {}
+let subtitle_words = {}
 
-const csv=require('csvtojson')
-csv({noheader:true, delimiter: ' '})
-.fromFile('cefr_words.csv')
-.on('json',jsonObj=>{
-  // console.log(jsonObj)
-  cefr_words[jsonObj.field4] = jsonObj.field3
-})
-.on('done',(error)=>{
-  console.log('done')
-})
+{
+  csv({noheader:true, delimiter: ' '})
+  .fromFile('cefr_words.csv')
+  .on('json',jsonObj=>{
+    // console.log(jsonObj)
+    cefr_words[jsonObj.field4] = jsonObj.field3
+  })
+  .on('done',error=>{
+    console.log('done')
+  })
+}
+
+{
+  let lineNumber = 0
+  csv({noheader:true, delimiter: ' '})
+  .fromFile('sv_50k.txt')
+  .on('json',jsonObj=>{
+    // console.log(jsonObj)
+    let rank = lineNumber
+    let freq = jsonObj.field2
+    subtitle_words[jsonObj.field1] = {rank, freq}
+    lineNumber += 1
+  })
+  .on('done',(error)=>{
+    console.log('done')
+  })
+}
 
 
-export function get_explain(explain) {
+
+
+export function retrived_explain(explain) {
   return {
-    type: GET_EXPLAIN,
+    type: RETRIVED_EXPLAIN,
     explain
   }
 }
 
-export function get_cefr(cefr) {
+export function retrived_rank(rankInfo) {
   return {
-    type: GET_CEFR,
-    cefr
+    type: RETRIVED_RANK,
+    rankInfo
   }
 }
 
-export function queryAsync(word: string, delay: number = 2000) {
+export function add_word(word) {
+  let cefr = cefr_words[word]
+  let subTitle = subtitle_words[word]
+  // TODO, for phase, the lowest rank will be used.
+  return {
+    type: ADD_WORD,
+    word,
+    rankInfo: {...subTitle, cefr}
+  }
+}
+
+export function sort_words() {
+  return {
+    type: SORT_WORDS
+  }
+}
+
+export function queryAsync(word: string) {
   return (dispatch: (action: actionType) => void) => {
     mdict.dictionary('dictionary.mdx').then(function(dictionary) {
       //// dictionary is loaded
@@ -53,28 +88,16 @@ export function queryAsync(word: string, delay: number = 2000) {
         phrase: word,      /// '*' and '?' supported
         max: 10           /// maximum results
       }).then(function(foundWords){
-        console.log('Found words:');
+        console.log('Found2 word1s:');
         console.log(foundWords);      /// foundWords is array
-
         var word = ''+foundWords[0];
-        console.log('Loading definitions for: '+word);
         return dictionary.lookup(word); /// typeof word === string
       }).then(function(definitions){
-        console.log('definitions:');     /// definition is array
-        console.log(definitions);
-        dispatch(get_explain(definitions))
+        dispatch(retrived_explain(definitions))
         let cefr = cefr_words[word]
-        if (cefr) {
-          dispatch(get_cefr(cefr))
-        }
+        let subTitle = subtitle_words[word]
+        dispatch(retrived_rank({...subTitle, cefr}))
       })
-      
     });
-
-    /*
-    setTimeout(() => {
-      dispatch(query(word));
-    }, delay);
-    */
   };
 }

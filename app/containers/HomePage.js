@@ -7,7 +7,9 @@ import * as CounterActions from '../actions/home';
 
 function mapStateToProps(state) {
   console.log('mapStateToProps: explain' , state)
-  return  {explain: state.explain || '', cefr: state.cefr || ''}
+  return  {explain: state.explain || '', 
+    rankInfo: state.rankInfo || {}, 
+    wordList: state.wordList || []}
 }
 
 function mapDispatchToProps(dispatch) {
