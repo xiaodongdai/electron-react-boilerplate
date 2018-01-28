@@ -4,8 +4,38 @@ import { AppContainer } from 'react-hot-loader';
 import Root from './containers/Root';
 import { configureStore, history } from './store/configureStore';
 import './app.global.css';
+import * as fs from 'fs';
 
-const store = configureStore();
+console.log('test111')
+let initialState = null
+try {
+  let strObj = fs.readFileSync('wordsList.obj', 'utf8')
+  if (strObj && strObj !== '') {
+    console.log('strObj1: ' + strObj)
+    let obj = JSON.parse(strObj)
+    console.log('initialized: obj=', obj)
+    initialState = {wordList: obj, curState: 'dictionary'}
+  }
+}catch (e) {
+  
+}
+const store =  initialState ? configureStore(initialState) : configureStore()
+
+// TODO: subscribe the store     
+let prevWordList = null
+let unsubscribe = store.subscribe(() => {
+  let curWordList = store.getState().wordList
+  if (curWordList !== prevWordList) {
+    console.log('wordList changed1， writting to file1!')
+    fs.writeFile('wordsList.obj', JSON.stringify(curWordList), err => {
+      if (err) {
+        console.log(err)
+      }
+      console.log('word list has been saved')
+    })
+    prevWordList = curWordList
+  }
+})
 
 render(
   <AppContainer>

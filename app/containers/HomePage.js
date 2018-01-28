@@ -3,17 +3,15 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 //import React, { Component } from 'react';
 import Home from '../components/Home';
-import * as CounterActions from '../actions/home';
+import * as Actions from '../actions/actions';
 
 function mapStateToProps(state) {
   console.log('mapStateToProps: explain' , state)
-  return  {explain: state.explain || '', 
-    rankInfo: state.rankInfo || {}, 
-    wordList: state.wordList || []}
+  return  {wordList: state.wordList || []}
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(CounterActions, dispatch);
+  return bindActionCreators(Actions, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

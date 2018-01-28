@@ -4,8 +4,43 @@ import { createHashHistory } from 'history';
 import { routerMiddleware, routerActions } from 'react-router-redux';
 import { createLogger } from 'redux-logger';
 import rootReducer from '../reducers';
-import * as homeActions from '../actions/home';
-import type { stateType } from '../reducers/home';
+import * as homeActions from '../actions/actions';
+import type { stateType } from '../reducers/reducers';
+
+/*
+state {
+  curState: 'review|dictionary'
+  wordList:  [
+    {
+      word: string,
+      cefr string
+      rank int
+      freq int
+      addedAt: date,
+      nextReviewAt: date,
+      reviewedTimes: int,
+      userComments:  string
+    }
+  ]
+  
+  wordInfo  {
+    explain: string,
+    cefr:    string,
+    rank:    int,
+    freq:    int,
+    userComments: string
+  }
+
+  reviewInfo:  {
+    show bool,
+    // only the first answer know or don't know matters.
+    wordList: [
+    ],
+    curIndex: int
+  }
+}
+*/
+
 
 const history = createHashHistory();
 
@@ -17,7 +52,7 @@ const configureStore = (initialState?: stateType) => {
   // Thunk Middleware
   middleware.push(thunk);
 
-  // Logging Middleware
+  // Logging middleware
   const logger = createLogger({
     level: 'info',
     collapsed: true
