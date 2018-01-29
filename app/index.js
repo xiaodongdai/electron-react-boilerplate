@@ -10,11 +10,13 @@ let initialState = null
 try {
   let strObj = fs.readFileSync('wordsList.obj', 'utf8')
   if (strObj && strObj !== '') {
-    let obj = JSON.parse(strObj)
+    let wordListDisplay = []
+    let wordList = JSON.parse(strObj)
     wordList.forEach((word, idx) => {
       word.index = idx
+      wordListDisplay.push({word, idx})
     })
-    initialState = {wordList: obj, curState: 'dictionary'}
+    initialState = {wordList, wordListDisplay, curState: 'dictionary'}
   }
 }catch (e) {
   

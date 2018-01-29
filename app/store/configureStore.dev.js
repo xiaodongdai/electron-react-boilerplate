@@ -24,7 +24,7 @@ state {
     }
   ]
 
-  wordListShow: [{
+  wordListDisplay: [{
     word: string
     index: number,
   }]
@@ -40,10 +40,10 @@ state {
   reviewInfo:  {
     show bool,
     // only the first answer know or don't know matters.
-    wordList: [
+    wordListReview: [{
       word: string
       index: number  // the index to original wordList
-    ],
+    }],
     curIndex: int
   }
 }
