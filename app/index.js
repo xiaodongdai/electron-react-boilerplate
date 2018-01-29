@@ -6,19 +6,21 @@ import { configureStore, history } from './store/configureStore';
 import './app.global.css';
 import * as fs from 'fs';
 
-console.log('test111')
 let initialState = null
 try {
   let strObj = fs.readFileSync('wordsList.obj', 'utf8')
   if (strObj && strObj !== '') {
-    console.log('strObj1: ' + strObj)
     let obj = JSON.parse(strObj)
-    console.log('initialized: obj=', obj)
+    wordList.forEach((word, idx) => {
+      word.index = idx
+    })
     initialState = {wordList: obj, curState: 'dictionary'}
   }
 }catch (e) {
   
 }
+
+
 const store =  initialState ? configureStore(initialState) : configureStore()
 
 // TODO: subscribe the store     

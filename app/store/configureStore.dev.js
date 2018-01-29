@@ -12,6 +12,7 @@ state {
   curState: 'review|dictionary'
   wordList:  [
     {
+      index: number
       word: string,
       cefr string
       rank int
@@ -22,6 +23,11 @@ state {
       userComments:  string
     }
   ]
+
+  wordListShow: [{
+    word: string
+    index: number,
+  }]
   
   wordInfo  {
     explain: string,
@@ -35,6 +41,8 @@ state {
     show bool,
     // only the first answer know or don't know matters.
     wordList: [
+      word: string
+      index: number  // the index to original wordList
     ],
     curIndex: int
   }
