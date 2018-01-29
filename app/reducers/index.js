@@ -101,10 +101,6 @@ const wordKnow = (state, action) => {
   return {...state, wordList, reviewInfo}
 }
 
-
-
-
-
 const rootReducer = (state, action) => {
     switch (action.type) {
       case WORD_KNOW:

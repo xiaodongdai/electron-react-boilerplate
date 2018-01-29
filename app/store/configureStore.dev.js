@@ -42,9 +42,11 @@ state {
     // only the first answer know or don't know matters.
     wordListReview: [{
       word: string
+      isFirstTime bool
+      isReviewed  bool
       index: number  // the index to original wordList
     }],
-    curIndex: int
+    curReviewIndex: int
   }
 }
 */
