@@ -63,6 +63,43 @@ const startReview = (state, action) => {
   return newState
 }
 
+const getUnknownIndexes = (wordListReview, curReviewIndex) {
+  for (let i = 0; i <= curReviewIndex; i+=1) {
+    if(wordListReview[i].isReviewed === false) {
+      unknownIndex.push(i)
+    }
+  }
+}
+
+const wordDontKnow = (state, action) => {
+  let wordListReview = state.reviewInfo.wordList.slice(0)
+  let curReviewIndex = state.reviewInfo.curReviewIndex
+  let wordInReview = wordListReview[curReviewIndex]
+  let wordList = state.wordList.slice(0)
+  let curState = state.curState
+
+  if(wordInReview.isFirstTime === true) {
+    wordInReview.isFirstTime = false
+    let word = wordList[wordInReview.index]
+    // set the iterations.
+    word.reviewedTimes = 0
+    // set next review time.
+    let nextDate = new Date()
+    word.nextReviewAt = nextDate.setDate(nextDate.getDate() + 1)
+  }
+
+  let unknownIndexes = getUnknownIndexes(wordListReview, curReviewIndex)
+  if (unknownIndexes.length() > 0) {
+    // it is last one or there are more than 5 unknown words.
+    if(curReviewIndex === wordListReview.length() - 1 ||
+      unknownIndexes.length() >= 5 ) {
+      curReviewIndex = unknownIndexes[0]
+    }
+  }
+
+  let reviewInfo = {...reviewInfo, curReviewIndex}
+  return {...state, wordList, reviewInfo}
+}
 
 const wordKnow = (state, action) => {
   let wordListReview = state.reviewInfo.wordList.slice(0)
@@ -71,9 +108,6 @@ const wordKnow = (state, action) => {
   let wordList = state.wordList.slice(0)
   let curState = state.curState
   wordInReview.isReviewed = true
-  if(wordInReview.isFirstTime === true) {
-    wordInReview.isFirstTime = false
-  }
 
   while (wordListReview[curReviewIndex].isReviewed === true && curReviewIndex < wordListReview.length()) {
     curReviewIndex += 1
@@ -90,6 +124,7 @@ const wordKnow = (state, action) => {
 
   // if it is the first time reivew, we update the next review time.
   if(wordInReview.isFirstTime === true) {
+    wordInReview.isFirstTime = false
     let word = wordList[wordInReview.index]
     // set the iterations.
     word.reviewedTimes += 1
