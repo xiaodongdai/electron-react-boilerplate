@@ -30,7 +30,7 @@ export default class Home extends Component<Props> {
 
   handleOnClickAsync() {
     const {_word} = this.refs
-    console.log(`value112113112133=${_word.value}`)
+    console.log(`value=${_word.value}`)
     let {
       queryAsync
     } = this.props;
@@ -62,7 +62,6 @@ export default class Home extends Component<Props> {
 
   render() {
     let {explain, rankInfo, wordList, curState} = this.props
-    console.log('wordLi11:', wordList)
     // reviewData: curWord, wordLists, 
     let reviewPane = (reviewData) => {
       return (<div>
@@ -82,7 +81,6 @@ export default class Home extends Component<Props> {
           {item.word}
         </li>
       )
-      console.log('ite1ms111', items)
       return (<ul>{items}</ul>)
     }
 

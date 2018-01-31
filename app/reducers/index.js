@@ -19,7 +19,9 @@ import {
   ADD_WORD,
   WORD_KNOW,
   WORD_DONTKNOW,
-  SORT_WORDS
+  SORT_WORDS,
+  RETRIVED_WORDINFO 
+
 } from '../actions/actions'
 
 
@@ -87,15 +89,17 @@ const startReview = (state, action) => {
 }
 
 const getUnknownIndexes = (wordListReview, curReviewIndex) => {
+  let unknownIndexes = []
   for (let i = 0; i <= curReviewIndex; i += 1) {
     if (wordListReview[i].isReviewed === false) {
-      unknownIndex.push(i)
+      unknownIndexes.push(i)
     }
   }
+  return unknownIndexes
 }
 
 const wordDontKnow = (state, action) => {
-  const wordListReview = state.reviewInfo.wordList.slice(0)
+  const wordListReview = state.reviewInfo.wordListReview.slice(0)
   let curReviewIndex = state.reviewInfo.curReviewIndex
   const wordInReview = wordListReview[curReviewIndex]
   const wordList = state.wordList.slice(0)
@@ -112,17 +116,20 @@ const wordDontKnow = (state, action) => {
   }
 
   const unknownIndexes = getUnknownIndexes(wordListReview, curReviewIndex)
-  if (unknownIndexes.length() > 0) {
+  if (unknownIndexes.length > 0) {
     // it is last one or there are more than 5 unknown words.
-    if (curReviewIndex === wordListReview.length() - 1 ||
-      unknownIndexes.length() >= 5) {
+    if (curReviewIndex === wordListReview.length - 1 ||
+      unknownIndexes.length >= 5) {
       curReviewIndex = unknownIndexes[0]
+    } else {
+      curReviewIndex += 1
     }
   }
 
   const reviewInfo = {
-    ...reviewInfo,
-    curReviewIndex
+    ...state.reviewInfo,
+    curReviewIndex,
+    show: false
   }
   return {
     ...state,
@@ -145,16 +152,16 @@ const wordKnow = (state, action) => {
   }
 
   let reviewInfo = null
-  console.log(`curReviewIndex:  ${curReviewIndex}, ${wordListReview.length}`)
+  console.log(`curReviewIndex:   ${curReviewIndex}, ${wordListReview.length}`)
   if (curReviewIndex >= wordListReview.length) {
-    // TODO make a message box.
-    reviewInfo = {}
+    // TODO make a message box, we are done!
     curState = 'dictionary'
   } else {
     reviewInfo = {
       ...state.reviewInfo,
       wordListReview,
-      curReviewIndex
+      curReviewIndex,
+      show: false
     }
   }
 
@@ -189,7 +196,16 @@ const rootReducer = (state, action) => {
       return wordDontKnow(state, action)
     case START_REVIEW:
       return startReview(state, action)
-
+    case RETRIVED_WORDINFO:
+    {
+      let curState = action.review ? 'review':'dictionary'
+      let reviewInfo = {...state.reviewInfo, show: action.review}
+      //let wordInfo = wordInfo(state.wordInfo, action)
+      let newWordInfo = wordInfo(state.wordInfo, action)
+      console.log('newWordInfo:=', newWordInfo)
+      return {...state, curState, reviewInfo, wordInfo: newWordInfo}
+    }
+  
     case ADD_WORD:
     {
       const wordList = state.wordList.slice(0)
