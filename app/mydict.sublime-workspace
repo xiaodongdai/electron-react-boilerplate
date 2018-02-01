@@ -1,0 +1,662 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"wordL",
+				"wordListReview"
+			],
+			[
+				"WORD_",
+				"WORD_DONTKNOW"
+			],
+			[
+				"unknown",
+				"unknownIndexes"
+			],
+			[
+				"handle",
+				"handleOnClicKnow"
+			],
+			[
+				"cur",
+				"curState"
+			],
+			[
+				"sub",
+				"subtitle_words"
+			],
+			[
+				"json",
+				"jsonObj"
+			],
+			[
+				"Prin",
+				"Printf\t ƒ"
+			],
+			[
+				"setS",
+				"UpdateSessionState\terror ƒ"
+			],
+			[
+				"Job",
+				"JobTypeExtend\t Ɩ"
+			],
+			[
+				"backg",
+				"background-color"
+			],
+			[
+				"Sw",
+				"SwiftTimeout\ttime.Duration ν"
+			],
+			[
+				"JobType",
+				"JobTypeRecover\t Ɩ"
+			],
+			[
+				"JobT",
+				"JobTypeRecover\t Ɩ"
+			],
+			[
+				"record",
+				"RecordingID"
+			],
+			[
+				"prepare",
+				"prepareJobs"
+			],
+			[
+				"regist",
+				"registryURL"
+			],
+			[
+				"recor",
+				"recordingDataHash"
+			],
+			[
+				"client",
+				"clientConnectionInfo"
+			],
+			[
+				"Wor",
+				"WorkerNoMain"
+			],
+			[
+				"comp",
+				"completeValid_a"
+			],
+			[
+				"compl",
+				"completeValid_b"
+			],
+			[
+				"cefr_",
+				"cefrValid_a"
+			],
+			[
+				"cefrVa",
+				"cefrValid_b"
+			],
+			[
+				"cefr",
+				"cefrValid_b"
+			],
+			[
+				"words_",
+				"words_sv_cefr"
+			],
+			[
+				"allW",
+				"allWordsTableName"
+			],
+			[
+				"new",
+				"new_words"
+			],
+			[
+				"Detail",
+				"DetailFormat"
+			],
+			[
+				"jobT",
+				"JobTypeSign"
+			],
+			[
+				"sig",
+				"Signature"
+			],
+			[
+				"publ",
+				"PublishDate"
+			],
+			[
+				"regi",
+				"RegistryUrl"
+			],
+			[
+				"New",
+				"NewDatabaseLayer"
+			],
+			[
+				"regit",
+				"registryUrl"
+			],
+			[
+				"context",
+				"contextMetaHash"
+			],
+			[
+				"database",
+				"databaseLayer"
+			],
+			[
+				"body",
+				"Body"
+			],
+			[
+				"sign",
+				"signatureUrl"
+			],
+			[
+				"signa",
+				"signature"
+			],
+			[
+				"exten",
+				"extensionUrl"
+			],
+			[
+				"Error",
+				"Errorf"
+			],
+			[
+				"Guar",
+				"GuardtimeClient"
+			],
+			[
+				"guar",
+				"guardtimeClient"
+			],
+			[
+				"recording",
+				"recordingId"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "reducers/reducers.js",
+			"settings":
+			{
+				"buffer_size": 923,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "index.js",
+			"settings":
+			{
+				"buffer_size": 1638,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "reducers/index.js",
+			"settings":
+			{
+				"buffer_size": 5921,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "components/PrimaryPane.js",
+			"settings":
+			{
+				"buffer_size": 1979,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 239.0,
+		"last_filter": "install",
+		"selected_items":
+		[
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"babe",
+				"GoSublime: Browse Packages"
+			],
+			[
+				"hex",
+				"HexViewer: Toggle Hex View"
+			],
+			[
+				"hexv",
+				"HexViewer: Toggle Hex View"
+			],
+			[
+				"package control: install",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 428.0
+	},
+	"console":
+	{
+		"height": 130.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '6f4c264a24d933ce70df5dedcf1dcaee' + 'ebe013ee18cced0ef93d5f746d80ef60'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app",
+		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/components",
+		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/reducers"
+	],
+	"file_history":
+	[
+		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/reducers/index.js",
+		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/containers/HomePage.js",
+		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/index.js",
+		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/store/configureStore.dev.js",
+		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/containers/App.js",
+		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/store/configureStore.js",
+		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/components/PrimaryPane.js",
+		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/containers/PrimaryPane.js",
+		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/components/Home.js",
+		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/actions/actions.js",
+		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/reducers/reducers.js",
+		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/actions/home.js",
+		"/Users/xiaodongdai/git_p/electron-react-boilerplate/mydict.sublime-project",
+		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/components/Home.css",
+		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/reducers/home.js",
+		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/test.jsx",
+		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/app.global.css",
+		"/Users/xiaodongdai/git_test/mook/src/App.js",
+		"/Users/xiaodongdai/git_test/mook/src/App.css",
+		"/Users/xiaodongdai/git_test/electron-react-boilerplate/app/components/Home.css",
+		"/Users/xiaodongdai/git_test/electron-react-boilerplate/app/components/Home.js",
+		"/Users/xiaodongdai/git_test/mook/src/index.css",
+		"/Users/xiaodongdai/git_test/electron-react-boilerplate/app/app.global.css",
+		"/Users/xiaodongdai/git_p/electron-react-boilerplate/webpack.config.renderer.dev.js",
+		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/containers/Root.js",
+		"/Users/xiaodongdai/git_p/golden-layout-react-redux/webpack.config.babel.js",
+		"/Users/xiaodongdai/git/gopath/src/git.cct.ericsson.net/c3-recording/terminator/terminator.go",
+		"/Users/xiaodongdai/git_p/golden-layout-react-redux/package.json",
+		"/Users/xiaodongdai/git_p/golden-layout-react-redux/src/components/GoldenLayoutWrapper.jsx",
+		"/Users/xiaodongdai/git/recording/docker-compose.yml",
+		"/Users/xiaodongdai/git/gopath/src/git.cct.ericsson.net/c3-recording/terminator/databaseLayer/databaseLayer.go",
+		"/Users/xiaodongdai/git_p/golden-layout-react-redux/src/index.jsx",
+		"/Users/xiaodongdai/git/gopath/src/git.cct.ericsson.net/c3-recording/terminator/jobs/jobs.go",
+		"/Users/xiaodongdai/git/gopath/src/git.cct.ericsson.net/c3-recording/terminator/config/config.go",
+		"/Users/xiaodongdai/git/gopath/src/git.cct.ericsson.net/c3-recording/registry/controllers/registry.go",
+		"/Users/xiaodongdai/git/gopath/src/git.cct.ericsson.net/c3-recording/registry/registry.go",
+		"/Users/xiaodongdai/git/gopath/src/git.cct.ericsson.net/cct/golib/swift/upload.go",
+		"/Users/xiaodongdai/git/gopath/src/git.cct.ericsson.net/c3-recording/terminator/guardtimeAPI/guardtimeAPI.go",
+		"/Users/xiaodongdai/git/gopath/src/git.cct.ericsson.net/c3-recording/terminator/constants/constants.go",
+		"/Users/xiaodongdai/git/gopath/src/git.cct.ericsson.net/c3-recording/terminator/util/util.go",
+		"/Users/xiaodongdai/git/gopath/src/git.cct.ericsson.net/c3-recording/registry/models/enums.go",
+		"/Users/xiaodongdai/git/gopath/src/git.cct.ericsson.net/c3-recording/terminator/const/const.go",
+		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/actions/counter.js",
+		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/components/Counter.js",
+		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/reducers/counter.js",
+		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/containers/CounterPage.js",
+		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/store/configureStore.prod.js",
+		"/Users/xiaodongdai/git/gopath/src/git.cct.ericsson.net/c3-recording/storage-relay/uploaders/stream/stream-uploader.go",
+		"/Users/xiaodongdai/git/gopath/src/git.cct.ericsson.net/cct/golib/swift/client.go",
+		"/Users/xiaodongdai/git/gopath/src/git.cct.ericsson.net/c3-recording/terminator/work/work.go",
+		"/Users/xiaodongdai/git/recording-manager/src/init.js",
+		"/Users/xiaodongdai/git_p/electron-react-boilerplate/webpack.config.main.prod.js",
+		"/Users/xiaodongdai/Library/Application Support/Sublime Text 3/Packages/GoSublime/CHANGELOG.md",
+		"/Users/xiaodongdai/git/gopath/src/git.cct.ericsson.net/c3-recording/storage-relay/storage-relay.go",
+		"/Users/xiaodongdai/git/libcct-web/sandbox/externalConference.html",
+		"/Users/xiaodongdai/git/recording-manager/src/services/RecordingService.js",
+		"/Users/xiaodongdai/git/recording-manager/src/routes/matrixProxy.js",
+		"/Users/xiaodongdai/git/libcct-web/sandbox/recording.html",
+		"/Users/xiaodongdai/git/recording-access-gateway/server.js",
+		"/Users/xiaodongdai/git/recording-access-gateway/src/readConfigFromEnv.js",
+		"/Users/xiaodongdai/git/recording-access-gateway/viewer/index.html",
+		"/Users/xiaodongdai/git/recording-access-gateway/viewer/main.js",
+		"/Users/xiaodongdai/git/recording-manager/src/services/ObjectStoreService.js",
+		"/Users/xiaodongdai/git/recording-manager/src/modules/MatrixSignalingGateway.js",
+		"/Users/xiaodongdai/git/recording-manager/src/modules/RegistryMediaProvider.js",
+		"/Users/xiaodongdai/git/recording-manager/src/RecordingService.js",
+		"/Users/xiaodongdai/git/libcct-web/src/routes/matrixProxy.js",
+		"/Users/xiaodongdai/git/recording-manager/src/ObjectStoreService.js",
+		"/Users/xiaodongdai/git/recording-access-gateway/src/init.js",
+		"/Users/xiaodongdai/git/gopath/src/git.cct.ericsson.net/c3-recording/storage-relay/vendor/git.cct.ericsson.net/cct/golib/swift/client.go",
+		"/Users/xiaodongdai/git/gopath/src/git.cct.ericsson.net/c3-recording/storage-relay/uploaders/uploaders.go",
+		"/Users/xiaodongdai/git/gopath/src/git.cct.ericsson.net/c3-recording/storage-relay/vendor/git.cct.ericsson.net/cct/golib/recordingdb/types.go",
+		"/Users/xiaodongdai/git/gopath/src/git.cct.ericsson.net/c3-recording/storage-relay/vendor/git.cct.ericsson.net/cct/golib/recordingdb/result-swift-object.go",
+		"/Users/xiaodongdai/git/gopath/src/git.cct.ericsson.net/c3-recording/storage-relay/uploaders/seekable/seekable-uploader.go",
+		"/Users/xiaodongdai/git/gopath/src/git.cct.ericsson.net/cct/golib/recordingdb/db.go",
+		"/Users/xiaodongdai/git/gopath/src/git.cct.ericsson.net/c3-recording/storage-relay/vendor/git.cct.ericsson.net/cct/golib/swift/upload.go",
+		"/Users/xiaodongdai/git/gopath/src/git.cct.ericsson.net/c3-recording/storage-relay/vendor/git.cct.ericsson.net/cct/golib/recordingdb/db.go",
+		"/Users/xiaodongdai/git/gopath/src/git.cct.ericsson.net/cct/golib/swift/client",
+		"/Users/xiaodongdai/git/gopath/src/git.cct.ericsson.net/c3-recording/storage-relay/uploaders/config/config.go",
+		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/components/Counter.css",
+		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/routes.js",
+		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/app.html",
+		"/Users/xiaodongdai/git/gopath/src/git.cct.ericsson.net/c3-recording/storage-relay/vendor/git.cct.ericsson.net/cct/golib/crypto/dem.go",
+		"/Users/xiaodongdai/git/gopath/src/git.cct.ericsson.net/c3-recording/registry/test",
+		"/Users/xiaodongdai/git/gopath/src/git.cct.ericsson.net/c3-recording/storage-relay/vendor/git.cct.ericsson.net/cct/golib/crypto/kem.go",
+		"/Users/xiaodongdai/git/recording-manager/src/matrixProxyEndpoint.js",
+		"/Users/xiaodongdai/git/recording-manager/src/MatrixSignalingGateway.js",
+		"/Users/xiaodongdai/git/gopath/src/git.cct.ericsson.net/c3-recording/terminator/Dockerfile_dev",
+		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/main.prod.js.map",
+		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/main.dev.js",
+		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/menu.js",
+		"/Users/xiaodongdai/git/gopath/src/git.cct.ericsson.net/c3-recording/storage-relay/vendor/git.cct.ericsson.net/cct/golib/c3db/db.go",
+		"/Users/xiaodongdai/git/c3-meet/src/containers/Root.dev.js",
+		"/Users/xiaodongdai/git/c3-meet/src/containers/Root.js",
+		"/Users/xiaodongdai/git/c3-meet/src/index.js",
+		"/Users/xiaodongdai/git/c3-meet/src/containers/MeetingPage.js",
+		"/Users/xiaodongdai/git_p/MywordServer/app.js",
+		"/Users/xiaodongdai/git_p/MywordServer/sv1.txt",
+		"/Users/xiaodongdai/git/terminator/terminator.go",
+		"/Users/xiaodongdai/git/storage-relay/Dockerfile_dev",
+		"/Users/xiaodongdai/git/gopath/src/git.cct.ericsson.net/c3-recording/terminator/README.md",
+		"/Users/xiaodongdai/git/gopath/src/arch-guardTime/guardtimeAPI/guardtimeAPI.go",
+		"/Users/xiaodongdai/git/gopath/src/arch-guardTime/work/work.go",
+		"/Users/xiaodongdai/git/gopath/src/arch-guardTime/databaseLayer/databaseLayer.go",
+		"/Users/xiaodongdai/git/gopath/src/arch-guardTime/guardTime.go",
+		"/Users/xiaodongdai/git/gopath/src/arch-guardTime/config/config.go",
+		"/Users/xiaodongdai/git_p/MywordServer/userWords.js",
+		"/Users/xiaodongdai/git_p/MywordServer/wordFrequency.js",
+		"/Users/xiaodongdai/git_p/MywordServer/folkets_sv_en_public.xml",
+		"/Users/xiaodongdai/git/gopath/src/git.cct.ericsson.net/cct/golib/recordingdb/result-swift-object.go",
+		"/Users/xiaodongdai/git_p/en_cefr/purge.awk",
+		"/Users/xiaodongdai/git_p/english_cefr_words.js",
+		"/Users/xiaodongdai/git_p/MywordServer/folkets_sv_en_public.xdxf.xml",
+		"/Users/xiaodongdai/git_p/en_cefr/english_cefr_words.js",
+		"/Users/xiaodongdai/git_p/MywordServer/README.md",
+		"/Users/xiaodongdai/git/gopath/src/arch-guardTime/vendor/git.cct.ericsson.net/cct/golib/swift/client.go",
+		"/Users/xiaodongdai/git_p/MywordServer/en1.txt",
+		"/Users/xiaodongdai/Downloads/stardict-eng_eng_main-2.4.2/eng_eng_main.dict.dz",
+		"/Users/xiaodongdai/Downloads/stardict-eng_eng_main-2.4.2/eng_eng_main.ifo",
+		"/Users/xiaodongdai/Downloads/kelly.xml",
+		"/Users/xiaodongdai/git_p/MywordServer/Swedish-Kelly_M3_CEFR.xls",
+		"/Users/xiaodongdai/git_p/MywordServer/Swedish-Kelly_M3_CEFR.csv",
+		"/Users/xiaodongdai/git_p/PapegojaDict/sv.txt",
+		"/Users/xiaodongdai/git/recording/simple-swift-server/src/index.js",
+		"/Users/xiaodongdai/git/storage-relay/uploaders/stream/stream-uploader.go",
+		"/Users/xiaodongdai/git/storage-relay/storage-relay.go",
+		"/Users/xiaodongdai/git_p/PapegojaDict/kelly.xml",
+		"/Users/xiaodongdai/git/gopath/src/arch-guardTime/test.go"
+	],
+	"find":
+	{
+		"height": 39.0
+	},
+	"find_in_files":
+	{
+		"height": 101.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"fibonacci",
+			"length()"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 2,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "reducers/reducers.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 923,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								313,
+								313
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "index.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1638,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "reducers/index.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5921,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1347,
+								1347
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 461.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "components/PrimaryPane.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1979,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1978,
+								1978
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.hex_viewer_inspector":
+	{
+		"height": 102.0
+	},
+	"pinned_build_system": "",
+	"project": "mydict.sublime-project",
+	"replace":
+	{
+		"height": 42.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 254.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

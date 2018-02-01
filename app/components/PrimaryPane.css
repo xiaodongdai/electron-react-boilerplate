@@ -1,0 +1,28 @@
+.container {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  text-align: center;
+}
+
+.answer {
+  position: absolte;
+  top: 10px;
+  botton: 10px;
+  overflow: auto;
+  overflow: auto;
+  background-color: 00000
+}
+
+.container h2 {
+  font-size: 5rem;
+}
+
+.container a {
+  font-size: 1.4rem;
+}
+
+.review {
+  height: 100px;
+  text-align:center
+}
