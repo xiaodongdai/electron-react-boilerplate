@@ -39,8 +39,14 @@ export default class PrimaryPane extends Component<Props> {
 
   render() {
     let {curState, wordInfo, reviewInfo} = this.props
-    console.log('pane: this.props= ', this.props)
+    console.log('wordInfo: ' + wordInfo.explain)
+
+
     let Explain = props => Parser(wordInfo.explain || '')
+    // find images or sounds in the text.
+
+
+
     let AllInfo = props => <div><Explain/><br/>
             CEF11:{wordInfo.cefr || 'N/A '}
             <br/>
@@ -48,7 +54,6 @@ export default class PrimaryPane extends Component<Props> {
           </div>
 
     let ReviewWordInfo = () => {
-      console.log('reviewInfo ', reviewInfo)
       if (!reviewInfo) {
         return <div>Error</div>
       }
@@ -57,7 +62,6 @@ export default class PrimaryPane extends Component<Props> {
       if (!wordListReview || !wordListReview.length) {
         return <div>Error</div>
       }
-
 
       if (show) {
         return <AllInfo/>

@@ -2,7 +2,10 @@
 	"folders":
 	[
 		{
-			"path": "."
+			"path": "/Users/xiaodongdai/git_p/mdict"
+		},
+		{
+			"path": "/Users/xiaodongdai/git_p/electron-react-boilerplate"
 		}
 	]
 }

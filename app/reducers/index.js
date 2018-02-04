@@ -112,7 +112,8 @@ const wordDontKnow = (state, action) => {
     word.reviewedTimes = 0
     // set next review time.
     const nextDate = new Date()
-    word.nextReviewAt = nextDate.setDate(nextDate.getDate() + 1)
+    // we should review it as soon as we can , 0 day delay!!!
+    word.nextReviewAt = nextDate.setDate(nextDate.getDate() + 0)
   }
 
   const unknownIndexes = getUnknownIndexes(wordListReview, curReviewIndex)

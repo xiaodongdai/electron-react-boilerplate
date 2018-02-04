@@ -2,7 +2,9 @@
 import type { stateType } from '../reducers/reducers'
 import mdict from 'mdict'
 import csv from 'csvtojson'
-
+import fs from 'fs'
+import Promise from 'bluebird'
+var writeFile = Promise.promisify(require("fs").writeFile);
 
 type actionType = {
   +type: string,
@@ -97,11 +99,11 @@ export function sortWords() {
   return {
     type: SORT_WORDS
   }
-}
+} 
 
 export function queryAsync(word: string, review: bool = false) {
   return (dispatch: (action: actionType) => void) => {
-    mdict.dictionary('dictionary.mdx').then(dictionary => {
+    mdict.dictionary(['dictionary.mdx']).then(dictionary => {
       //// dictionary is loaded
       dictionary.search({
         phrase: word,      /// '*' and '?' supported
@@ -110,26 +112,36 @@ export function queryAsync(word: string, review: bool = false) {
         var word = ''+foundWords[0];
         return dictionary.lookup(word); /// typeof word === string
       }).then(([explain]) => {
+        let filenames = []
         // parse the explain, find out the files or images.
-        console.log('got explain' + explain)
-        let cefr = cefr_words[word]
-        let subTitle = subtitle_words[word]
-        dispatch(retrivedWordInfo({...subTitle, 
-          cefr, 
-          explain,
-          userComments: '',
-          review
-        }))
-      }).then(() => {
-        mdict.dictionary('dictionary.mdd').then(mdd => {
-          console.log('mdd: a')
-          return mdd.lookup('\\testar.spx')
-        }).then(result => {
-          console.log('result from mdd : ', result)
-        }).catch(e => {
-          console.log('error; ', e)
+        mdict.loadmdd('dictionary.mdd').then(mdd => {
+          let re = /"(sound|file):\/\/([a-z0-9.]*)"/g
+          let matches = null
+          let queries = []
+          while (matches = re.exec(explain)) {
+            explain = explain.replace(matches[0], `\"files/${matches[2]}\"`)
+            queries.push(mdd.lookup(matches[2]))
+            filenames.push(matches[2])
+          }
+          return Promise.all(queries)
+        }).then(results => {
+          let writeFiles = []
+          results.forEach((r, idx) => {
+            console.log('result is: ', r)
+            writeFiles.push(writeFile(`files/${filenames[idx]}`, r))
+          })
+          return Promise.all(writeFiles)
+        }).then(() => {
+          let cefr = cefr_words[word]
+          let subTitle = subtitle_words[word]
+          dispatch(retrivedWordInfo({...subTitle, 
+            cefr, 
+            explain,
+            userComments: '',
+            review
+          }))
         })
-      }) 
+      })
     });
   };
 }
