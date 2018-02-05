@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"unknow",
+				"unknownIndex"
+			],
+			[
+				"cur",
+				"curReviewIndex"
+			],
+			[
 				"wordL",
 				"wordListReview"
 			],
@@ -18,10 +26,6 @@
 			[
 				"handle",
 				"handleOnClicKnow"
-			],
-			[
-				"cur",
-				"curState"
 			],
 			[
 				"sub",
@@ -191,7 +195,7 @@
 			"file": "reducers/reducers.js",
 			"settings":
 			{
-				"buffer_size": 923,
+				"buffer_size": 924,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -206,10 +210,19 @@
 			}
 		},
 		{
-			"file": "reducers/index.js",
+			"file": "/Users/xiaodongdai/git_p/mdict/test.js",
 			"settings":
 			{
-				"buffer_size": 5921,
+				"buffer_size": 1016,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/xiaodongdai/git_p/mdict/mdict-parser.js",
+			"settings":
+			{
+				"buffer_size": 41722,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -218,7 +231,27 @@
 			"file": "components/PrimaryPane.js",
 			"settings":
 			{
-				"buffer_size": 1979,
+				"buffer_size": 2280,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "// @flow\nimport { bindActionCreators } from 'redux';\nimport { connect } from 'react-redux';\n//import React, { Component } from 'react';\nimport PrimaryPane from '../components/PrimaryPane';\nimport * as Actions from '../actions/actions';\n\nfunction mapStateToProps(state) {\n  console.log('mapStateToProps:  explain' , state)\n  return  {\n    wordInfo: state.wordInfo || {},\n    curState: state.curState,\n    reviewInfo: state.reviewInfo || {}\n  }\n}\n\nfunction mapDispatchToProps(dispatch) {\n  return bindActionCreators(Actions, dispatch);\n}\n\nexport default connect(mapStateToProps, mapDispatchToProps)(PrimaryPane);\n\n\n/*\ntype Props = {};\n\nexport default class HomePage extends Component<Props> {\n  props: Props;\n\n\n\n  render() {\n    return (\n      <Home />\n    );\n  }\n}\n*/",
+			"file": "containers/PrimaryPane.js",
+			"file_size": 766,
+			"file_write_time": 131618889305388737,
+			"settings":
+			{
+				"buffer_size": 766,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "components/Home.js",
+			"settings":
+			{
+				"buffer_size": 2748,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -277,13 +310,24 @@
 	},
 	"expanded_folders":
 	[
+		"/Users/xiaodongdai/git_p/mdict",
+		"/Users/xiaodongdai/git_p/electron-react-boilerplate",
 		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app",
+		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/actions",
 		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/components",
-		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/reducers"
+		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/containers"
 	],
 	"file_history":
 	[
+		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/components/PrimaryPane.css",
+		"/Users/xiaodongdai/git_p/mdict/index.js",
 		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/reducers/index.js",
+		"/Users/xiaodongdai/git_p/mdict_test/test.js",
+		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/actions/actions.js",
+		"/Users/xiaodongdai/git_p/mdict_test/test2.js",
+		"/Users/xiaodongdai/git_p/electron-react-boilerplate/node_modules/mdict/mdict-parser.js",
+		"/Users/xiaodongdai/git_p/mdict/mdict-common.js",
+		"/Users/xiaodongdai/git_p/mdict/mdict-parser.js",
 		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/containers/HomePage.js",
 		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/index.js",
 		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/store/configureStore.dev.js",
@@ -292,7 +336,6 @@
 		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/components/PrimaryPane.js",
 		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/containers/PrimaryPane.js",
 		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/components/Home.js",
-		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/actions/actions.js",
 		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/reducers/reducers.js",
 		"/Users/xiaodongdai/git_p/electron-react-boilerplate/app/actions/home.js",
 		"/Users/xiaodongdai/git_p/electron-react-boilerplate/mydict.sublime-project",
@@ -403,18 +446,11 @@
 		"/Users/xiaodongdai/Downloads/stardict-eng_eng_main-2.4.2/eng_eng_main.dict.dz",
 		"/Users/xiaodongdai/Downloads/stardict-eng_eng_main-2.4.2/eng_eng_main.ifo",
 		"/Users/xiaodongdai/Downloads/kelly.xml",
-		"/Users/xiaodongdai/git_p/MywordServer/Swedish-Kelly_M3_CEFR.xls",
-		"/Users/xiaodongdai/git_p/MywordServer/Swedish-Kelly_M3_CEFR.csv",
-		"/Users/xiaodongdai/git_p/PapegojaDict/sv.txt",
-		"/Users/xiaodongdai/git/recording/simple-swift-server/src/index.js",
-		"/Users/xiaodongdai/git/storage-relay/uploaders/stream/stream-uploader.go",
-		"/Users/xiaodongdai/git/storage-relay/storage-relay.go",
-		"/Users/xiaodongdai/git_p/PapegojaDict/kelly.xml",
-		"/Users/xiaodongdai/git/gopath/src/arch-guardTime/test.go"
+		"/Users/xiaodongdai/git_p/MywordServer/Swedish-Kelly_M3_CEFR.xls"
 	],
 	"find":
 	{
-		"height": 39.0
+		"height": 23.0
 	},
 	"find_in_files":
 	{
@@ -428,6 +464,46 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"wordInfo.explain",
+			"findResource",
+			"getExtension",
+			"WORD_DONTKNOW",
+			"findResource",
+			"lookup",
+			"search",
+			"newUint8Array",
+			"Uint8Array",
+			"newUint8Array",
+			"conseq",
+			"readRaw",
+			"read_object",
+			"findResource",
+			"LOOKUP",
+			"parse_mdict",
+			"queryAsync",
+			"console.log",
+			"_handleTextChange",
+			"_queryWord",
+			"_handleTextChange",
+			"value is",
+			"Explain",
+			"reviewPane",
+			"show",
+			"review",
+			"newState",
+			"retrivedWordInfo",
+			"handleOnClickWord",
+			"handleOnClickAsync",
+			"ReviewWordInfo",
+			"reviewInfo",
+			"startReview",
+			"ReviewWordInfo",
+			"length()",
+			"unknownIndexes",
+			"getUnknownIndexes",
+			"handleOnClickDontKnow",
+			"handleOnClickDontKnowhandleOnClickDontKnow",
+			"wordDontKnow",
 			"fibonacci",
 			"length()"
 		],
@@ -447,7 +523,7 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -456,15 +532,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 923,
+						"buffer_size": 924,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								313,
-								313
+								615,
+								615
 							]
 						],
 						"settings":
@@ -477,7 +553,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
@@ -493,8 +569,8 @@
 						"selection":
 						[
 							[
-								0,
-								0
+								654,
+								654
 							]
 						],
 						"settings":
@@ -507,24 +583,53 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "reducers/index.js",
+					"file": "/Users/xiaodongdai/git_p/mdict/test.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5921,
+						"buffer_size": 1016,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1347,
-								1347
+								801,
+								801
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/Users/xiaodongdai/git_p/mdict/mdict-parser.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 41722,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								29319,
+								29325
 							]
 						],
 						"settings":
@@ -534,27 +639,87 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 461.0,
+						"translation.y": 10053.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 4,
 					"file": "components/PrimaryPane.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1979,
+						"buffer_size": 2280,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1978,
-								1978
+								1163,
+								1163
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 405.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "containers/PrimaryPane.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 766,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								188,
+								188
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "components/Home.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2748,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1084,
+								1084
 							]
 						],
 						"settings":
@@ -567,7 +732,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 5,
 					"type": "text"
 				}
 			]
@@ -604,6 +769,10 @@
 		]
 	},
 	"menu_visible": true,
+	"output.GoSublime-main-output":
+	{
+		"height": 102.0
+	},
 	"output.find_results":
 	{
 		"height": 0.0
