@@ -115,11 +115,12 @@ export function queryAsync(word: string, review: bool = false) {
         let filenames = []
         // parse the explain, find out the files or images.
         mdict.loadmdd('dictionary.mdd').then(mdd => {
+          // download resources.
           let re = /"(sound|file):\/\/([a-z0-9.]*)"/g
           let matches = null
           let queries = []
           while (matches = re.exec(explain)) {
-            explain = explain.replace(matches[0], `\"files/${matches[2]}\"`)
+            //explain = explain.replace(matches[0], `\"files/${matches[2]}\"`)
             queries.push(mdd.lookup(matches[2]))
             filenames.push(matches[2])
           }
@@ -127,11 +128,13 @@ export function queryAsync(word: string, review: bool = false) {
         }).then(results => {
           let writeFiles = []
           results.forEach((r, idx) => {
-            console.log('result is: ', r)
-            writeFiles.push(writeFile(`files/${filenames[idx]}`, r))
+            console.log('result is:  ', r)
+            writeFiles.push(writeFile(`app/files/${filenames[idx]}`, r))
           })
           return Promise.all(writeFiles)
         }).then(() => {
+          // TODO: Convert spx to wav files
+          // see https://stackoverflow.com/questions/13948307/how-can-i-play-spx-file-by-html5
           let cefr = cefr_words[word]
           let subTitle = subtitle_words[word]
           dispatch(retrivedWordInfo({...subTitle, 

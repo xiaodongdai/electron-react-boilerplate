@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import styles from './PrimaryPane.css'
 import Parser from 'html-react-parser'
 import SplitPane from 'react-split-pane'
-
+import domToReact from 'html-react-parser/lib/dom-to-react'
 
 type Props = {
   queryAsync: () => void,
@@ -18,6 +18,7 @@ export default class PrimaryPane extends Component<Props> {
     this.handleOnClickDontKnow = this.handleOnClickDontKnow.bind(this)
     this.handleOnClickWord = this.handleOnClickWord.bind(this)
   }
+
 
   handleOnClicKnow() {
     let { handleKnow, reviewInfo} = this.props
@@ -37,15 +38,36 @@ export default class PrimaryPane extends Component<Props> {
     queryAsync(word, true) // review = true
   }
 
+  handleVoiceClick(file) {
+    console.log('handleVoice: ' + file)
+    file = file.replace('sound://','files/')
+    let audio = new Audio(file)
+    audio.play()
+  }
+
   render() {
     let {curState, wordInfo, reviewInfo} = this.props
     console.log('wordInfo: ' + wordInfo.explain)
-
-
-    let Explain = props => Parser(wordInfo.explain || '')
+    // TODO: we should add the event handler for links here.
+    const parserOptions = {
+      replace: (domNode) => {
+        console.log('domNode:  ', domNode)
+        if(domNode.name === 'a') {
+          // add the event handler
+          console.log('found it')
+          return (<div onClick={()=> {this.handleVoiceClick(domNode.attribs.href || '')}}>
+            {domToReact(domNode.children)}
+            </div>
+            ) 
+        } else if (domNode.name === 'img') {
+          // TODO : need to replace the file path!
+        }
+      }
+    };
+    let Explain = props => Parser(wordInfo.explain || '', parserOptions)
     // find images or sounds in the text.
 
-
+  
 
     let AllInfo = props => <div><Explain/><br/>
             CEF11:{wordInfo.cefr || 'N/A '}
