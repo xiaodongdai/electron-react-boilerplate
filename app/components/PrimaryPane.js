@@ -39,22 +39,20 @@ export default class PrimaryPane extends Component<Props> {
   }
 
   handleVoiceClick(file) {
-    console.log('handleVoice: ' + file)
     file = file.replace('sound://','files/')
-    let audio = new Audio(file)
-    audio.play()
+    console.log('handleVoice: ' + file)
   }
 
   render() {
     let {curState, wordInfo, reviewInfo} = this.props
-    console.log('wordInfo: ' + wordInfo.explain)
+    console.log('wordInfo:  ' , wordInfo)
     // TODO: we should add the event handler for links here.
     const parserOptions = {
       replace: (domNode) => {
-        console.log('domNode:  ', domNode)
+        //console.log('domNode:  ', domNode)
         if(domNode.name === 'a') {
           // add the event handler
-          console.log('found it')
+          //console.log('found it')
           return (<div onClick={()=> {this.handleVoiceClick(domNode.attribs.href || '')}}>
             {domToReact(domNode.children)}
             </div>

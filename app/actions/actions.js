@@ -1,4 +1,5 @@
 // @flow
+"use strict"
 import type { stateType } from '../reducers/reducers'
 import mdict from 'mdict'
 import csv from 'csvtojson'
@@ -101,6 +102,41 @@ export function sortWords() {
   }
 } 
 
+function decodeFile(bufSpx) {
+  var stream, samples, st;
+  var ogg, header, err;
+
+  ogg = new Ogg(bufSpx, {file: true});
+  ogg.demux();
+  stream = ogg.bitstream();
+
+  header = Speex.parseHeader(ogg.frames[0]);
+  console.log(header);
+
+  comment = new SpeexComment(ogg.frames[1]);
+  console.log(comment.data);
+
+  st = new Speex({
+    quality: 8,
+    mode: header.mode,
+    rate: header.rate
+  });
+
+  samples = st.decode(stream, ogg.segments);
+
+  var waveData = PCMData.encode({
+      sampleRate: header.rate,
+      channelCount: header.nb_channels,
+      bytesPerSample: 2,
+      data: samples
+    });
+
+  // array buffer holding audio data in wav codec
+  return Speex.util.str2ab(waveData);
+
+}
+
+
 export function queryAsync(word: string, review: bool = false) {
   return (dispatch: (action: actionType) => void) => {
     mdict.dictionary(['dictionary.mdx']).then(dictionary => {
@@ -119,32 +155,31 @@ export function queryAsync(word: string, review: bool = false) {
           let re = /"(sound|file):\/\/([a-z0-9.]*)"/g
           let matches = null
           let queries = []
+          console.log('expain: ', explain)
           while (matches = re.exec(explain)) {
             //explain = explain.replace(matches[0], `\"files/${matches[2]}\"`)
             queries.push(mdd.lookup(matches[2]))
             filenames.push(matches[2])
+            console.log('match: ', matches[2])
           }
           return Promise.all(queries)
         }).then(results => {
-          let writeFiles = []
-          results.forEach((r, idx) => {
-            console.log('result is:  ', r)
-            writeFiles.push(writeFile(`app/files/${filenames[idx]}`, r))
-          })
-          return Promise.all(writeFiles)
-        }).then(() => {
-          // TODO: Convert spx to wav files
-          // see https://stackoverflow.com/questions/13948307/how-can-i-play-spx-file-by-html5
+          let media = filenames.reduce((acc, cur, i) => {
+            acc['filename'] = cur
+            acc['buffer'] = results[i]
+            return acc
+          }, {})
           let cefr = cefr_words[word]
           let subTitle = subtitle_words[word]
           dispatch(retrivedWordInfo({...subTitle, 
             cefr, 
             explain,
             userComments: '',
-            review
+            review,
+            media
           }))
         })
       })
-    });
+    })
   };
 }

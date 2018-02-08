@@ -24,10 +24,7 @@ export function wordInfo(state: object = {}, action: actionType) {
     case RETRIVED_WORDINFO:
       return {
         ...state,
-        explain: action.explain,
-        cefr: action.cefr,
-        rank: action.rank,
-        freq: action.freq,
+        ...action,
       }
     default:
       return state
