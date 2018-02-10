@@ -22,6 +22,10 @@ export function curState(state: string = '', action: actionType) {
 export function wordInfo(state: object = {}, action: actionType) {
   switch (action.type) {
     case RETRIVED_WORDINFO:
+      let {files} = state
+      files.forEach(file => {
+        URL.revokeObjectURL(file.objectUri)
+      })
       return {
         ...state,
         ...action,

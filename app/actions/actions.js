@@ -5,6 +5,11 @@ import mdict from 'mdict'
 import csv from 'csvtojson'
 import fs from 'fs'
 import Promise from 'bluebird'
+import Ogg from '../speex/ogg'
+/*import {BitString} from '../speex/bitstring'
+import {PCMData} from '../speex/pcmdata.min'
+import {Ogg, Speex} from '../speex/speex'
+*/
 var writeFile = Promise.promisify(require("fs").writeFile);
 
 type actionType = {
@@ -46,7 +51,7 @@ let subtitle_words = {}
     lineNumber += 1
   })
   .on('done',(error)=>{
-    console.log('done')
+    console.log('done ')
   })
 }
 
@@ -103,10 +108,12 @@ export function sortWords() {
 } 
 
 function decodeFile(bufSpx) {
+  
   var stream, samples, st;
   var ogg, header, err;
-
+  console.log('start decode   ', bufSpx)
   ogg = new Ogg(bufSpx, {file: true});
+  console.log('ogg: ', ogg)
   ogg.demux();
   stream = ogg.bitstream();
 
@@ -133,7 +140,41 @@ function decodeFile(bufSpx) {
 
   // array buffer holding audio data in wav codec
   return Speex.util.str2ab(waveData);
+}
 
+function lookupRes(mdd, file) {
+  return mdd.lookup(file.filename).then(raw => {
+    // if it is spx, we decode it
+    let suffix = file.filename.substr(file.filename.length - 4)
+    let buffer = null
+    let type = ''
+    switch(suffix) {
+      case '.spx':
+        let data = String.fromCharCode.apply(null, raw)
+        buffer = decodeFile(data)
+        type = 'audio/wav'
+        break
+      case '.mp3':
+        buffer = raw
+        type = 'audio/mp3'
+        break
+      case '.bmp':
+        buffer = raw
+        type = 'image/bmp'
+        break
+      case '.png':
+        buffer = raw
+        type = 'image/png'
+        break
+      case '.jpg':
+        buffer = raw
+        type = 'image/jpg'
+        break
+    }
+    let blob = new Blob([buffer], {type})
+    let objectUri = URL.createObjectURL(blob)
+    return {...file, objectUri}
+  })
 }
 
 
@@ -147,28 +188,33 @@ export function queryAsync(word: string, review: bool = false) {
       }).then(function(foundWords){
         var word = ''+foundWords[0];
         return dictionary.lookup(word); /// typeof word === string
-      }).then(([explain]) => {
-        let filenames = []
+      }).then(([originExplain]) => {
+        let files = []
         // parse the explain, find out the files or images.
         mdict.loadmdd('dictionary.mdd').then(mdd => {
           // download resources.
           let re = /"(sound|file):\/\/([a-z0-9.]*)"/g
           let matches = null
           let queries = []
-          console.log('expain: ', explain)
-          while (matches = re.exec(explain)) {
-            //explain = explain.replace(matches[0], `\"files/${matches[2]}\"`)
-            queries.push(mdd.lookup(matches[2]))
-            filenames.push(matches[2])
-            console.log('match: ', matches[2])
+          console.log('expain: ', originExplain)
+          while (matches = re.exec(originExplain)) {
+            // the uri is like "sound://test.wav"
+            files.push({filename: matches[2], originUri: matches[0]})
           }
-          return Promise.all(queries)
-        }).then(results => {
-          let media = filenames.reduce((acc, cur, i) => {
-            acc['filename'] = cur
-            acc['buffer'] = results[i]
-            return acc
-          }, {})
+
+          re = /"<img +src *= *"([a-z0-9]+.[a-z]+)"/g
+          while (matches = re.exec(originExplain)) {
+            files.push({filename: matches[1], originUri: matches[0]})
+          }
+
+          return Promise.all(files.map(file => lookupRes(mdd, file)))
+        }).then(files => {
+          // replace the originuri with objecturi
+          files.forEach(file => {
+            let {originUri, objectUri} = file
+            originExplain = originExplain.replace(originUri, objectUri)
+          })
+          let explain = originExplain
           let cefr = cefr_words[word]
           let subTitle = subtitle_words[word]
           dispatch(retrivedWordInfo({...subTitle, 
@@ -176,7 +222,7 @@ export function queryAsync(word: string, review: bool = false) {
             explain,
             userComments: '',
             review,
-            media
+            files
           }))
         })
       })
