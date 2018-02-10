@@ -1,3 +1,5 @@
+"use strict"
+
 function CodecProcessor (params) {
   // read the speex profile (narrow, wideband, ultra wideband)
   this.mode = libspeex._speex_lib_get_mode(params.mode || 0);

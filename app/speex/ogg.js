@@ -1,3 +1,5 @@
+"use strict"
+
 /* Based on Xiph libogg checksum calculation */
 var BitString = require('./bitstring')
 function crc32(str) {

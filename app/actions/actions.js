@@ -112,14 +112,14 @@ function decodeFile(bufSpx) {
   
   var stream, samples, st;
   var ogg, header, err;
-  console.log('start decode   ', bufSpx)
+  console.log('start decode  ', bufSpx)
   ogg = new Ogg(bufSpx, {file: true});
   console.log('ogg: ', ogg)
   ogg.demux();
   stream = ogg.bitstream();
 
   header = Speex.parseHeader(ogg.frames[0]);
-  console.log(header);
+  console.log('header: ', header);
 
   comment = new SpeexComment(ogg.frames[1]);
   console.log(comment.data);

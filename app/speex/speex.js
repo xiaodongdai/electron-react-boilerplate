@@ -1,6 +1,8 @@
 "use strict";
+
 var SpeexDecoder = require('./decoder.js')
 var SpeexEncoder = require('./encoder.js')
+var BitString = require('./bitstring')
 var util = require('./util');
 
 
