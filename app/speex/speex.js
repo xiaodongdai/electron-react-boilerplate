@@ -252,4 +252,8 @@ global["SpeexHeader"] = SpeexHeader;
 global["SpeexComment"] = SpeexComment;
 
 */
-module.exports = Speex
+module.exports = {
+  Speex,
+  SpeexComment,
+  SpeexHeader
+}

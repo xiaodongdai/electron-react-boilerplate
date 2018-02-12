@@ -4,14 +4,14 @@ import type { stateType } from '../reducers/reducers'
 import mdict from 'mdict'
 import csv from 'csvtojson'
 import fs from 'fs'
-import Promise from 'bluebird'
 import Ogg from '../speex/ogg'
-import Speex from '../speex/speex'
+import {Speex, SpeexComment} from '../speex/speex'
+import {PCMData} from '../speex/pcmdata'
 /*import {BitString} from '../speex/bitstring'
 import {PCMData} from '../speex/pcmdata.min'
 import {Ogg, Speex} from '../speex/speex'
 */
-var writeFile = Promise.promisify(require("fs").writeFile);
+
 
 type actionType = {
   +type: string,
@@ -112,16 +112,16 @@ function decodeFile(bufSpx) {
   
   var stream, samples, st;
   var ogg, header, err;
-  console.log('start decode  ', bufSpx)
+  console.log('start decode       ', bufSpx)
   ogg = new Ogg(bufSpx, {file: true});
-  console.log('ogg: ', ogg)
+  console.log('ogg:  ', ogg)
   ogg.demux();
   stream = ogg.bitstream();
-
+  console.log('Speex:  ', Speex)
   header = Speex.parseHeader(ogg.frames[0]);
   console.log('header: ', header);
 
-  comment = new SpeexComment(ogg.frames[1]);
+  let comment = new SpeexComment(ogg.frames[1]);
   console.log(comment.data);
 
   st = new Speex({
@@ -129,9 +129,9 @@ function decodeFile(bufSpx) {
     mode: header.mode,
     rate: header.rate
   });
-
+  console.log('Speex created ! ')
   samples = st.decode(stream, ogg.segments);
-
+  console.log('decoded! ')
   var waveData = PCMData.encode({
       sampleRate: header.rate,
       channelCount: header.nb_channels,
@@ -143,16 +143,21 @@ function decodeFile(bufSpx) {
   return Speex.util.str2ab(waveData);
 }
 
+
+/*
 function lookupRes(mdd, file) {
+  console.log(`file1: ${file.filename}`)
   return mdd.lookup(file.filename).then(raw => {
     // if it is spx, we decode it
     let suffix = file.filename.substr(file.filename.length - 4)
     let buffer = null
     let type = ''
+    console.log(`file2: ${file.filename}`)
     switch(suffix) {
       case '.spx':
         let data = String.fromCharCode.apply(null, raw)
         buffer = decodeFile(data)
+        console.log('buffer:', buffer )
         type = 'audio/wav'
         break
       case '.mp3':
@@ -177,7 +182,7 @@ function lookupRes(mdd, file) {
     return {...file, objectUri}
   })
 }
-
+*/
 
 export function queryAsync(word: string, review: bool = false) {
   return (dispatch: (action: actionType) => void) => {
@@ -193,28 +198,61 @@ export function queryAsync(word: string, review: bool = false) {
         let files = []
         // parse the explain, find out the files or images.
         mdict.loadmdd('dictionary.mdd').then(mdd => {
+
           // download resources.
           let re = /"(sound|file):\/\/([a-z0-9.]*)"/g
           let matches = null
           let queries = []
-          console.log('expain: ', originExplain)
+          console.log('explain:  ', originExplain)
+          console.log('match starting ')
           while (matches = re.exec(originExplain)) {
             // the uri is like "sound://test.wav"
+            console.log(`matched1: ${matches[2]} and ${matches[0]}`)
             files.push({filename: matches[2], originUri: matches[0]})
           }
 
-          re = /"<img +src *= *"([a-z0-9]+.[a-z]+)"/g
+          re = /<img +src *= *"([a-z0-9_]+\.[a-z]+)"/g
           while (matches = re.exec(originExplain)) {
-            files.push({filename: matches[1], originUri: matches[0]})
+            console.log(`matched2: ${matches[1]} and ${matches[1]}`)
+            files.push({filename: matches[1], originUri: matches[1]})
           }
 
-          return Promise.all(files.map(file => lookupRes(mdd, file)))
-        }).then(files => {
-          // replace the originuri with objecturi
-          files.forEach(file => {
-            let {originUri, objectUri} = file
-            originExplain = originExplain.replace(originUri, objectUri)
+          return Promise.all(files.map(file => mdd.lookup(file.filename)))
+        }).then(raws => {
+          raws.forEach((raw, index) => {
+            let file = files[index]
+            let type = ''
+            let suffix = file.filename.substr(file.filename.length - 4)
+            switch(suffix) {
+              case '.spx':
+                let data = String.fromCharCode.apply(null, raw)
+                file.buffer = decodeFile(data)
+                console.log('buffer:     ', file.buffer )
+                type = 'audio/wav'
+                break
+              case '.mp3':
+                file.buffer = raw
+                type = 'audio/mp3'
+                break
+              case '.bmp':
+                file.buffer = raw
+                type = 'image/bmp'
+                break
+              case '.png':
+                file.buffer = raw
+                type = 'image/png'
+                break
+              case '.jpg':
+                file.buffer = raw
+                type = 'image/jpg'
+                break
+            }
+            let blob = new Blob([file.buffer], {type})
+            file.objectUri = URL.createObjectURL(blob)
+            originExplain = originExplain.replace(file.originUri, file.objectUri)
           })
+          originExplain = originExplain.replace('<font color="silver">', '<font color="black">')
+          console.log('originExplain: ', originExplain)
           let explain = originExplain
           let cefr = cefr_words[word]
           let subTitle = subtitle_words[word]

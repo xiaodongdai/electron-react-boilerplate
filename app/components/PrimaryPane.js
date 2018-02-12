@@ -5,6 +5,8 @@ import styles from './PrimaryPane.css'
 import Parser from 'html-react-parser'
 import SplitPane from 'react-split-pane'
 import domToReact from 'html-react-parser/lib/dom-to-react'
+import Divider from 'material-ui/Divider'
+import { InputLabel } from 'material-ui/Input';
 
 type Props = {
   queryAsync: () => void,
@@ -39,13 +41,14 @@ export default class PrimaryPane extends Component<Props> {
   }
 
   handleVoiceClick(file) {
-    file = file.replace('sound://','files/')
-    console.log('handleVoice: ' + file)
+    let audio = new Audio(file)
+    audio.play()
+
   }
 
   render() {
     let {curState, wordInfo, reviewInfo} = this.props
-    console.log('wordInfo:  ' , wordInfo)
+    console.log('wordInfo:     ' , wordInfo)
     // TODO: we should add the event handler for links here.
     const parserOptions = {
       replace: (domNode) => {
@@ -53,10 +56,10 @@ export default class PrimaryPane extends Component<Props> {
         if(domNode.name === 'a') {
           // add the event handler
           //console.log('found it')
-          return (<div onClick={()=> {this.handleVoiceClick(domNode.attribs.href || '')}}>
+          return (<div className={styles.href} onClick={()=> {this.handleVoiceClick(domNode.attribs.href || '')}}>
             {domToReact(domNode.children)}
             </div>
-            ) 
+            )
         } else if (domNode.name === 'img') {
           // TODO : need to replace the file path!
         }
@@ -65,13 +68,15 @@ export default class PrimaryPane extends Component<Props> {
     let Explain = props => Parser(wordInfo.explain || '', parserOptions)
     // find images or sounds in the text.
 
-  
-
-    let AllInfo = props => <div><Explain/><br/>
-            CEF11:{wordInfo.cefr || 'N/A '}
-            <br/>
-            RANK:{wordInfo.rank || 'N/A'}
-          </div>
+    let AllInfo = props => 
+      <div><Explain/><br/>
+      <div className={styles.divider}>-</div> 
+      CEFR:{wordInfo.cefr || 'N/A '}
+      <br/>
+      RANK:{wordInfo.rank || 'N/A'}
+      
+      <div className={styles.divider}>-</div> 
+      </div>
 
     let ReviewWordInfo = () => {
       if (!reviewInfo) {

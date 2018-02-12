@@ -37,8 +37,7 @@ export default class Home extends Component<Props> {
 
   handleOnClickAsync() {
     //const {_word} = this.refs
-    console.log('this: ' , this)
-    console.log('value is:', this._queryWord)
+    console.log('value is:   ', this._queryWord)
     if (!this._queryWord || this._queryWord === '') {
       return
     }
@@ -50,6 +49,9 @@ export default class Home extends Component<Props> {
   }
 
   handleClickItem(word) {
+    // force refresh!
+    this.setState({'_selectedWord': word})
+    this._selectedWord = word
     let {
       queryAsync
     } = this.props;
@@ -57,11 +59,10 @@ export default class Home extends Component<Props> {
   }
 
   handleAdd() {
-    const {_word} = this.refs
     let {
       addWord
     } = this.props;
-    addWord(_word.value)
+    addWord(this._queryWord)
   }
 
   handleReview() {
@@ -77,11 +78,18 @@ export default class Home extends Component<Props> {
 
     
     let WordList = () => {
-      let items = wordList.map((item, idx) => 
-        <li key={idx.toString()} onClick={() => {this.handleClickItem(item.word)}}>
+      console.log('refresh wordlist!! !')
+      let items = wordList.map((item, idx) => {
+        let theClass = styles.wordList
+        console.log(`this._selectWord =${this._selectWord}, item.word=${item.word}`)
+        if (this._selectedWord && this._selectedWord === item.word) {
+          console.log('word Selected!')
+          theClass = styles.selectedWordList
+        }
+        return <li className={theClass} key={idx.toString()} onClick={() => {this.handleClickItem(item.word)}}>
           {item.word}
         </li>
-      )
+      })
       return (<ul>{items}</ul>)
     }
 
@@ -94,8 +102,7 @@ export default class Home extends Component<Props> {
           <button type="button" onClick={this.handleReview}>Review</button>
         </div>
         <SplitPane split="vertical" allowResize={true} minSize={300} primary="second">
-          <div>
-            <button type="button" onClick={this.handleSort}>Sort</button>
+          <div className={styles.wordListContainer}>
             <WordList/>
           </div>
           <PrimaryPane wordInfo/>

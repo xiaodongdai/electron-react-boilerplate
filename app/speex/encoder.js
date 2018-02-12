@@ -2,6 +2,8 @@
 
 var util = require('./util');
 var CodecProcessor = require('./codec')
+var {libspeex, types} = require('./types')
+
 
 function SpeexEncoder (params) {
 	CodecProcessor.apply(this, arguments);
@@ -39,21 +41,22 @@ SpeexEncoder.quality_bits = {
 }
 
 SpeexEncoder.prototype.init = function () {
+  console.log('types: ', types)
 	var i32ptr = libspeex.allocate(1, 'i32', libspeex.ALLOC_STACK)
-	  , bits_addr = libspeex.allocate(Speex.types.SpeexBits.__size__, 'i8', libspeex.ALLOC_STACK)
+	  , bits_addr = libspeex.allocate(types.types.SpeexBits.__size__, 'i8', libspeex.ALLOC_STACK)
 	  , state;
 
 	libspeex._speex_bits_init(bits_addr);
 
 	state = libspeex._speex_encoder_init(this.mode);
 
-	libspeex._speex_encoder_ctl(state, Speex.SPEEX_GET_FRAME_SIZE, i32ptr);
+	libspeex._speex_encoder_ctl(state, types.SPEEX_GET_FRAME_SIZE, i32ptr);
 	this.frame_size = libspeex.getValue(i32ptr, 'i32');
 
 	this.buffer_size = this.buffer_size;
 
 	libspeex.setValue(i32ptr, this.quality, 'i32');
-	libspeex._speex_encoder_ctl(state, Speex.SPEEX_SET_QUALITY, i32ptr);
+	libspeex._speex_encoder_ctl(state, types.SPEEX_SET_QUALITY, i32ptr);
 
 	this.state = state;
 	this.bits = bits_addr;

@@ -1,4 +1,5 @@
 "use strict"
+var {Binary} = require('./pcmdata')
 
 var util = {
 		toString: function (data, fn) {

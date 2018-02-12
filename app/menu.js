@@ -81,6 +81,7 @@ export default class MenuBuilder {
     const subMenuViewProd = {
       label: 'View',
       submenu: [
+        { label: 'Toggle Developer Tools', accelerator: 'Alt+Command+I', click: () => { this.mainWindow.toggleDevTools(); } },
         { label: 'Toggle Full Screen', accelerator: 'Ctrl+Command+F', click: () => { this.mainWindow.setFullScreen(!this.mainWindow.isFullScreen()); } }
       ]
     };

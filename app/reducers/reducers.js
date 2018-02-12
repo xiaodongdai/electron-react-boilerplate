@@ -23,9 +23,11 @@ export function wordInfo(state: object = {}, action: actionType) {
   switch (action.type) {
     case RETRIVED_WORDINFO:
       let {files} = state
-      files.forEach(file => {
-        URL.revokeObjectURL(file.objectUri)
-      })
+      if(files) {
+        files.forEach(file => {
+          URL.revokeObjectURL(file.objectUri)
+        })
+      }
       return {
         ...state,
         ...action,

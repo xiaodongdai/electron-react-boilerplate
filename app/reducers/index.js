@@ -75,7 +75,7 @@ const startReview = (state, action) => {
   if (wordListReview.length === 0) {
     return state
   }
-  console.log('reducer: reviewWords:  ', wordListReview)
+  console.log('reducer: reviewWords:   ', wordListReview)
   const reviewInfo = {
     wordListReview,
     show: false,

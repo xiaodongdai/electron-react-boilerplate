@@ -2,7 +2,7 @@
 
 var util = require('./util')
 var CodecProcessor = require('./codec')
-
+var {libspeex, types} = require('./types')
 function SpeexDecoder (params) {
 	CodecProcessor.apply(this, arguments);
 
@@ -25,7 +25,7 @@ function SpeexDecoder (params) {
 util.inherit(SpeexDecoder, CodecProcessor);
 
 SpeexDecoder.prototype.init = function () {
-	var bits_addr = libspeex.allocate(SpeexDecoder.types.SpeexBits.__size__, 'i8', libspeex.ALLOC_STACK);
+	var bits_addr = libspeex.allocate(types.types.SpeexBits.__size__, 'i8', libspeex.ALLOC_STACK);
 	libspeex._speex_bits_init(bits_addr);
 
 	var i32ptr = libspeex.allocate(1, 'i32', libspeex.ALLOC_STACK)
@@ -33,12 +33,12 @@ SpeexDecoder.prototype.init = function () {
 	  , sample_rate;
 
 	libspeex.setValue(i32ptr, this.enh, "i32");
-	libspeex._speex_decoder_ctl(state, SpeexDecoder.SPEEX_SET_ENH, i32ptr);
+	libspeex._speex_decoder_ctl(state, types.SPEEX_SET_ENH, i32ptr);
 
 	libspeex.setValue(i32ptr, this.params.sample_rate, "i32");
-	libspeex._speex_decoder_ctl(state, SpeexDecoder.SPEEX_SET_SAMPLING_RATE, i32ptr);
+	libspeex._speex_decoder_ctl(state, types.SPEEX_SET_SAMPLING_RATE, i32ptr);
 
-	libspeex._speex_decoder_ctl(state, SpeexDecoder.SPEEX_GET_FRAME_SIZE, i32ptr);
+	libspeex._speex_decoder_ctl(state, types.SPEEX_GET_FRAME_SIZE, i32ptr);
 	this.frame_size = libspeex.getValue(i32ptr, "i32");
 
 	this.state = state;
@@ -111,22 +111,22 @@ SpeexDecoder.prototype.process = function (spxdata, segments) {
 		/* Read bits */
 		len = this.read(offset, bits_size, spxdata);
 
-  		/* Decode the data */
-  		ret = decoder_func(state_addr, bits_addr, buffer_addr);
+		/* Decode the data */
+		let ret = decoder_func(state_addr, bits_addr, buffer_addr);
 
-  		if (ret < 0) {
-  			return ret;
-  		}
+		if (ret < 0) {
+			return ret;
+		}
 
-  		/* Write the samples to the output buffer */
-  		this.write(output_offset, this.frame_size, buffer_addr);
+		/* Write the samples to the output buffer */
+		this.write(output_offset, this.frame_size, buffer_addr);
 
-  		benchmark && console.timeEnd('decode_packet_offset_' + offset);
+		benchmark && console.timeEnd('decode_packet_offset_' + offset);
 
-  		offset += len;
+		offset += len;
 		output_offset += this.frame_size;
 		segidx++;
-  	}
+  }
 
   	return this.output.subarray(0, output_offset);
 }

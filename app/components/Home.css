@@ -1,8 +1,26 @@
+div {
+  overflow-y: auto
+}
+
+.wordList {
+  color: black;
+  cursor: pointer;
+}
+
+.selectedWordList {
+  background-color: #b3ccff;
+}
+
 .container {
   position: absolute;
   top: 10px;
   left: 10px;
+  width: auto;
   text-align: center;
+}
+
+.wordListContainer {
+  background-color: #B3E5FC
 }
 
 .answer {

@@ -5,21 +5,36 @@
   text-align: center;
 }
 
+.href {
+    cursor: pointer;
+}
+
+.divider {
+
+  
+  height:0;
+  border-top:2px 
+  solid #FF7500;
+  font-size:0;
+}
+
 .answer {
   position: absolte;
   top: 10px;
   botton: 10px;
   overflow: auto;
   overflow: auto;
-  background-color: 00000
+  background-color: 00000;
+  color: black;
 }
 
 .container h2 {
   font-size: 5rem;
 }
 
-.container a {
+.answer a {
   font-size: 1.4rem;
+  cursor: pointer;
 }
 
 .review {
