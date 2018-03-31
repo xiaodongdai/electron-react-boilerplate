@@ -7,8 +7,14 @@ div {
   cursor: pointer;
 }
 
+
+
 .selectedWordList {
-  background-color: #b3ccff;
+  background-color: #40C4FF
+}
+
+.wordInput {
+  background-color: #80D8FF;
 }
 
 .container {
@@ -21,6 +27,10 @@ div {
 
 .wordListContainer {
   background-color: #B3E5FC
+}
+
+.wordListContainer li:hover {
+  background-color: #80D8FF
 }
 
 .answer {

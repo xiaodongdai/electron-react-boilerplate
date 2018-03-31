@@ -96,7 +96,9 @@ export default class Home extends Component<Props> {
     return (
       <SplitPane split="horizontal" allowResize={false} minSize={50} defaultSize={80}>
         <div className={styles.container} data-tid="container">
-          <TextField  label="Word" margin="normal" onChange={this._handleTextChange}/>
+
+          <TextField inputStyle={styles.wordInput}  label="Input the word" margin="normal" onChange={this._handleTextChange}/>
+
           <button type="button" onClick={this.handleOnClickAsync}>Query</button>
           <button type="button" onClick={this.handleAdd}>Add</button>
           <button type="button" onClick={this.handleReview}>Review</button>
