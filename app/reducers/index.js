@@ -190,61 +190,61 @@ const wordKnow = (state, action) => {
 
 const rootReducer = (state, action) => {
   switch (action.type) {
-    case WORD_KNOW:
-      // if it is the first time for showing the word today, then reset the reviewAt value.
-      return wordKnow(state, action)
-    case WORD_DONTKNOW: 
-      return wordDontKnow(state, action)
-    case START_REVIEW:
-      return startReview(state, action)
-    case RETRIVED_WORDINFO:
-    {
-      let curState = action.review ? 'review':'dictionary'
-      let reviewInfo = {...state.reviewInfo, show: action.review}
-      //let wordInfo = wordInfo(state.wordInfo, action)
-      let newWordInfo = wordInfo(state.wordInfo, action)
-      console.log('newWordInfo:=', newWordInfo)
-      return {...state, curState, reviewInfo, wordInfo: newWordInfo}
-    }
-  
-    case ADD_WORD:
-    {
-      const wordList = state.wordList.slice(0)
-      const index = state.wordList.length
-      wordList.push({
-        word: action.word,
-        index,
-        cefr: action.cefr,
-        freq: action.freq,
-        rank: action.rank,
-        addedAt: action.addedAt,
-        nextReviewAt: action.nextReviewAt,
-        reviewedTimes: 0,
-        userComments: action.userComments
-      })
-      let wordListDisplay = state.wordListDisplay.slice(0)
-      wordListDisplay.push({
-        word: action.word,
-        index
-      })
-      return {
-        ...state,
-        wordList,
-        wordListDisplay
-      }
-    }
+  case WORD_KNOW:
+    // if it is the first time for showing the word today, then reset the reviewAt value.
+    return wordKnow(state, action)
+  case WORD_DONTKNOW: 
+    return wordDontKnow(state, action)
+  case START_REVIEW:
+    return startReview(state, action)
+  case RETRIVED_WORDINFO:
+  {
+    let curState = action.review ? 'review':'dictionary'
+    let reviewInfo = {...state.reviewInfo, show: action.review}
+    //let wordInfo = wordInfo(state.wordInfo, action)
+    let newWordInfo = wordInfo(state.wordInfo, action)
+    console.log('newWordInfo:=', newWordInfo)
+    return {...state, curState, reviewInfo, wordInfo: newWordInfo}
+  }
 
-    case SORT_WORDS:
-      let wordListDisplay = state.wordListDisplay.slice(0)
-      console.log('unsorted wordListDisplay', wordListDisplay)
-      wordListDisplay.sort((a, b) => sortWords(state.wordList[a.index], state.wordList[b.index]))
-      console.log('sorted wordListDisplay:', wordListDisplay)
-      return Object.assign({ ...state }, {
-        wordListDisplay
-      })
-      // make
-    default:
-      return rootReducerHelper(state, action)
+  case ADD_WORD:
+  {
+    const wordList = state.wordList.slice(0)
+    const index = state.wordList.length
+    wordList.push({
+      word: action.word,
+      index,
+      cefr: action.cefr,
+      freq: action.freq,
+      rank: action.rank,
+      addedAt: action.addedAt,
+      nextReviewAt: action.nextReviewAt,
+      reviewedTimes: 0,
+      userComments: action.userComments
+    })
+    let wordListDisplay = state.wordListDisplay.slice(0)
+    wordListDisplay.push({
+      word: action.word,
+      index
+    })
+    return {
+      ...state,
+      wordList,
+      wordListDisplay
+    }
+  }
+
+  case SORT_WORDS:
+    let wordListDisplay = state.wordListDisplay.slice(0)
+    console.log('unsorted wordListDisplay', wordListDisplay)
+    wordListDisplay.sort((a, b) => sortWords(state.wordList[a.index], state.wordList[b.index]))
+    console.log('sorted wordListDisplay:', wordListDisplay)
+    return Object.assign({ ...state }, {
+      wordListDisplay
+    })
+    // make
+  default:
+    return rootReducerHelper(state, action)
   }
 }
 

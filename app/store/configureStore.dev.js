@@ -12,11 +12,12 @@ state {
   curState: 'review|dictionary'
   wordList:  [
     {
-      index: number
+      index: number,
       word: string,
-      cefr string
-      rank int
-      freq int
+      language: string,
+      cefr string,
+      rank int,
+      freq int,
       addedAt: date,
       nextReviewAt: date,
       reviewedTimes: int,
@@ -30,23 +31,30 @@ state {
   }]
   
   wordInfo  {
-    explain: string,
-    cefr:    string,
-    rank:    int,
-    freq:    int,
-    userComments: string
+    explains: [
+      {
+        language: string,
+        cefr: string,
+        rank: int,
+        explains: [
+          dictionary: string,
+          explain:    string
+        ]
+        userComments: string
+      }
+    ]
   }
 
   reviewInfo:  {
     show bool,
-    // only the first answer know or don't know matters.
+    // only the today's first answer for knowing it or not matters.
     wordListReview: [{
       word: string
       isFirstTime bool
       isReviewed  bool
       index: number  // the index to original wordList
     }],
-    curReviewIndex: int
+    curReviewIndex: int     // current review index number
   }
 }
 */

@@ -25,36 +25,64 @@ export const START_REVIEW = 'START_REVIEW'
 export const WORD_KNOW = 'WORD_KNOW'
 export const WORD_DONTKNOW = 'WORD_DONTKNOW'
 // load cefr file
-let cefr_words = {}
-let subtitle_words = {}
+let cefr_words = []
+let subtitle_words = []
 
-{
+
+function loadCefr(cefrArr, lang) {
+  cefrArr[lang] = []
   csv({noheader:true, delimiter: ' '})
-  .fromFile('cefr_words.csv')
+  .fromFile(`cefr_words_${lang}.csv`)
   .on('json',jsonObj=>{
     // console.log(jsonObj)
-    cefr_words[jsonObj.field4] = jsonObj.field3
+    if (cefrArr[lang][jsonObj.field4] === undefined) {
+      // does not exist, we create a new
+      cefrArr[lang][jsonObj.field4] = jsonObj.field3
+    } else {
+      // use the lowest level.
+      if (cefrArr[lang][jsonObj.field4] > jsonObj.field3) {
+        cefrArr[lang][jsonObj.field4] = jsonObj.field3
+      }
+    }
   })
   .on('done',error=>{
     console.log('done')
   })
 }
 
-{
+function loadFreq(subTitleArr, lang) {
+  subTitleArr[lang] = []
   let lineNumber = 0
   csv({noheader:true, delimiter: ' '})
-  .fromFile('sv_50k.txt')
+  .fromFile(`${lang}_50k.txt`)
   .on('json',jsonObj=>{
     // console.log(jsonObj)
     let rank = lineNumber
-    let freq = jsonObj.field2
-    subtitle_words[jsonObj.field1] = {rank, freq}
+    // let freq = jsonObj.field2
+    if (subTitleArr[lang][jsonObj.field1] === undefined) {
+      subTitleArr[lang][jsonObj.field1] = rank
+    }
+
     lineNumber += 1
   })
   .on('done',(error)=>{
     console.log('done ')
   })
 }
+
+// load Swedish data
+console.log('start loading data')
+loadCefr(cefr_words, 'sv')
+loadFreq(subtitle_words, 'sv')
+console.log(`cefr_words:  ${cefr_words['sv']}`)
+// load English data
+loadCefr(cefr_words, 'en')
+loadFreq(subtitle_words, 'en')
+console.log('end loading data')
+
+
+
+
 
 
 export function handleKnow(wordIndex) {
@@ -282,31 +310,77 @@ export function lookUpDictionary(word, filename, isMddExists = true) {
   } else {
     return mdict.dictionary(filename + '.mdx').then(dictionary => dictionary.lookup(word))
       .then(changeFontColor)
+      .catch(e => {console.log(`error happened for  ${filename}: ${e} `)})
   }
 }
 
 
+/*
+    explains: [
+      {
+        language: string,
+        cefr: string,
+        rank: int,
+        dictionaries: [
+          dictionary: string,
+          explain:    string
+        ]
+        userComments: string
+      }
+    ]
+*/
+function getIndexOfLanguage(explains, lang) {
+  explains.forEach((explain, index) => {
+    if(explain.language === lang) {
+      return index
+    }
+  })
+  return -1
+}
+
 export function queryAsync(word: string, review: bool = false) {
   let lookup = lookUpDictionary
   return (dispatch: (action: actionType) => void) => {
+    let dictionaries = [{name: 'sv-en-folkets-lexikon', mddExists: true, lang: 'sv'},
+                        {name: 'en-ch-langdao-2015.6', mddExists: false, lang: 'en'}]
+    Promise.all(dictionaries.map(dict => lookUpDictionary(word, dict.name, dict.mddExists)))
+      .then(results => {
+        let {explains, files} = results.reduce((acc, cur, curIndex) => {
+          if (cur === undefined || cur.explain === undefined) {
+            return acc
+          }
 
-    // TODO: multiple dictionary queries.
-    let a = lookUpDictionary(word, 'sv-en-folkets-lexikon', true)
-    console.log('a= ', a)
+          // check if the language exists.
+          let explains = acc.explains
+          let files = acc.files
+          let index = getIndexOfLanguage(acc.explains)
+          if (index === -1) {
+            let language = dictionaries[curIndex].lang
+            explains.push({
+              language,
+              cefr:     cefr_words[language][word],
+              rank:     subtitle_words[language][word],
+              dictionaries: [{explain: cur.explain, dictionary: dictionaries[curIndex].name}],
+            })
+          } else {
+            acc.explains.dictionaries.push({explain: acc.explain, dictionary: dictionaries[curIndex].name})
+          }
 
-    a.then(({explain, files}) => {
-      console.log('successfully     ' + explain)
-      let cefr = cefr_words[word]
-      let subTitle = subtitle_words[word]
-      dispatch(retrivedWordInfo({...subTitle, 
-        cefr, 
-        explain,
-        userComments: '',
-        review,
-        files
-      }))
-    }).catch(e => {console.log(e)})
-    console.log('my test here ')
+          cur.files.forEach(file => {
+            if (acc.files.indexOf(file) === -1) {
+              files.push(file)
+            }
+          })
 
+          return {explains, files}
+        }, {explains: [], files: []})
+
+        console.log('explains: ', explains)
+        dispatch(retrivedWordInfo({
+          explains,
+          files,
+          review,
+        }))
+      })
   }
 }
