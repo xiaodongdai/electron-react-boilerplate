@@ -1,37 +1,44 @@
-import React from 'react';
-import { render } from 'react-dom';
-import { AppContainer } from 'react-hot-loader';
-import Root from './containers/Root';
-import { configureStore, history } from './store/configureStore';
-import './app.global.css';
-import * as fs from 'fs';
+import React from 'react'
+import { render } from 'react-dom'
+import { AppContainer } from 'react-hot-loader'
+import Root from './containers/Root'
+import { configureStore, history } from './store/configureStore'
+import './app.global.css'
+import * as fs from 'fs'
 
 let initialState = null
 try {
-  let strObj = fs.readFileSync('wordsList.obj', 'utf8')
+  let strObj = fs.readFileSync('./wordsList.obj', 'utf8')
   if (strObj && strObj !== '') {
     let wordListDisplay = []
     let wordList = JSON.parse(strObj)
-    wordList.forEach((word, idx) => {
-      word.index = idx
-      wordListDisplay.push({word, idx})
+    Object.keys(wordList).forEach(lang => {
+      console.log('lang= ' + lang)
+      wordList[lang].forEach((word, idx) => {
+        word.index = idx
+        wordListDisplay.push({word, idx})
+      })
     })
     initialState = {wordList, wordListDisplay, curState: 'dictionary'}
   }
 }catch (e) {
-  
+  console.log('cannot read wordList.obj ')
 }
 
 
 const store =  initialState ? configureStore(initialState) : configureStore()
 
-// TODO: subscribe the store     
+// TODO: subscribe the store   
+
 let prevWordList = null
 let unsubscribe = store.subscribe(() => {
   let curWordList = store.getState().wordList
-  if (curWordList !== prevWordList) {
-    console.log('wordList changed1， writting to file1!')
-    fs.writeFile('wordsList.obj', JSON.stringify(curWordList), err => {
+  console.log('subscribe called ')
+  if (prevWordList === null) {
+    prevWordList = curWordList
+  } else if (curWordList !== prevWordList) {
+    console.log('wordList changed1， writting to file! ')
+    fs.writeFile('./wordsList.obj', JSON.stringify(curWordList), err => {
       if (err) {
         console.log(err)
       }

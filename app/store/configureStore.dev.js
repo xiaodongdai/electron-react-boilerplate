@@ -31,28 +31,31 @@ state {
   }]
   
   wordInfo  {
-    explains: [
+    explainations: [
       {
         language: string,
         cefr: string,
         rank: int,
-        explains: [
+        dictionaries: [
           dictionary: string,
           explain:    string
         ]
         userComments: string
       }
-    ]
+    ],
+
+    files: []   // the saved blob objects.
   }
 
   reviewInfo:  {
-    show bool,
-    // only the today's first answer for knowing it or not matters.
+    lang string,  //'sv|en'
+    show bool,   // show the explaination
+    // only today's first answer for knowing it or not matters.
     wordListReview: [{
-      word: string
-      isFirstTime bool
-      isReviewed  bool
-      index: number  // the index to original wordList
+      word: string,
+      isFirstTime: bool,
+      isReviewed:  bool,
+      index: number  //the index to original wordList
     }],
     curReviewIndex: int     // current review index number
   }

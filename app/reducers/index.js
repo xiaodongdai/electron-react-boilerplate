@@ -59,28 +59,34 @@ function fibonacci(num, memo) {
 
 const startReview = (state, action) => {
   const wordListReview = []
-  state.wordList.slice(0).sort(sortWords).filter((word, idx) => idx < 30 && word.nextReviewAt < Date.now()).forEach(w => {
-    const {
-      word,
-      index
-    } = w
-    wordListReview.push({
-      word,
-      index,
-      isFirstTime: true,
-      isReviewed: false
+  state.wordList[action.language].slice(0).sort(sortWords)
+    .filter(word => word.nextReviewAt < Date.now())
+    .filter((word, idx) => idx < 30)
+    .forEach(w => {
+      const {
+        word,
+        index
+      } = w
+      wordListReview.push({
+        word,
+        index,
+        isFirstTime: true,
+        isReviewed: false
+      })
     })
-  })
 
   if (wordListReview.length === 0) {
     return state
   }
-  console.log('reducer: reviewWords:   ', wordListReview)
+
+  console.log('reducer: reviewWords:    ', wordListReview)
   const reviewInfo = {
     wordListReview,
     show: false,
-    curReviewIndex: 0
+    curReviewIndex: 0,
+    language: action.language
   }
+  
   const newState = Object.assign({ ...state }, {
     reviewInfo,
     curState: 'review'
@@ -98,16 +104,19 @@ const getUnknownIndexes = (wordListReview, curReviewIndex) => {
   return unknownIndexes
 }
 
+// FIX ME: multiple languages support!
 const wordDontKnow = (state, action) => {
+  let language = action.language
   const wordListReview = state.reviewInfo.wordListReview.slice(0)
   let curReviewIndex = state.reviewInfo.curReviewIndex
   const wordInReview = wordListReview[curReviewIndex]
-  const wordList = state.wordList.slice(0)
+  const wordList = {}
+  wordList[language] = state.wordList[language].slice(0)
   const curState = state.curState
 
   if (wordInReview.isFirstTime === true) {
     wordInReview.isFirstTime = false
-    const word = wordList[wordInReview.index]
+    const word = wordList[language][wordInReview.index]
     // set the iterations.
     word.reviewedTimes = 0
     // set next review time.
@@ -134,19 +143,21 @@ const wordDontKnow = (state, action) => {
   }
   return {
     ...state,
-    wordList,
+    wordList: {...state.wordList, ...wordList},
     reviewInfo
   }
 }
 
 const wordKnow = (state, action) => {
+  let language = action.language
   const wordListReview = state.reviewInfo.wordListReview.slice(0)
   let curReviewIndex = state.reviewInfo.curReviewIndex
   const wordInReview = wordListReview[curReviewIndex]
-  const wordList = state.wordList.slice(0)
+  const wordList = {}
+  wordList[language] = state.wordList[language].slice(0)
   let curState = state.curState
   wordInReview.isReviewed = true
-  console.log('wordListReview', wordListReview)
+  console.log('wordListReview  ', wordListReview)
   console.log('curReviewIndex'+ curReviewIndex)
   while (curReviewIndex < wordListReview.length && wordListReview[curReviewIndex].isReviewed === true) {
     curReviewIndex += 1
@@ -169,13 +180,13 @@ const wordKnow = (state, action) => {
   // if it is the first time reivew, we update the next review time.
   if (wordInReview.isFirstTime === true) {
     wordInReview.isFirstTime = false
-    const word = wordList[wordInReview.index]
+    const word = wordList[language][wordInReview.index]
     // set the iterations.
     word.reviewedTimes = word.reviewedTimes || 0
     word.reviewedTimes += 1
     // set next review time.
     const nextDate = new Date()
-    console.log('reviewedTimes:  ' + word.reviewedTimes)
+    console.log('reviewedTimes:   ' + word.reviewedTimes)
     const days = fibonacci(word.reviewedTimes)
 
     word.nextReviewAt = nextDate.setDate(nextDate.getDate() + days)
@@ -183,7 +194,7 @@ const wordKnow = (state, action) => {
   return {
     ...state,
     curState,
-    wordList,
+    wordList: {...state.wordList, ...wordList},
     reviewInfo
   }
 }
@@ -203,15 +214,23 @@ const rootReducer = (state, action) => {
     let reviewInfo = {...state.reviewInfo, show: action.review}
     //let wordInfo = wordInfo(state.wordInfo, action)
     let newWordInfo = wordInfo(state.wordInfo, action)
-    console.log('newWordInfo:=', newWordInfo)
+
+    for(let i=0; i<newWordInfo.explainations.length; i+=1) {
+      let exp = newWordInfo.explainations[i]
+      let language = exp.language
+      exp.isAdded = state.wordList[language].map(w => w.word).indexOf(newWordInfo.word) !== -1
+    }
+
+    console.log('newWordInfo:=   ', newWordInfo)
     return {...state, curState, reviewInfo, wordInfo: newWordInfo}
   }
 
   case ADD_WORD:
   {
-    const wordList = state.wordList.slice(0)
-    const index = state.wordList.length
-    wordList.push({
+    let language = action.language
+    const wordListLanguage = state.wordList[language].slice(0)
+    const index = wordListLanguage.length
+    wordListLanguage.push({
       word: action.word,
       index,
       cefr: action.cefr,
@@ -222,19 +241,19 @@ const rootReducer = (state, action) => {
       reviewedTimes: 0,
       userComments: action.userComments
     })
-    let wordListDisplay = state.wordListDisplay.slice(0)
-    wordListDisplay.push({
-      word: action.word,
-      index
-    })
+
+    let newWordList = {}
+    newWordList[language] = wordListLanguage
+
+    let wordList = {...state.wordList, ...newWordList}
+    console.log('wordList:  ', wordList)
     return {
       ...state,
       wordList,
-      wordListDisplay
     }
   }
-
   case SORT_WORDS:
+  {
     let wordListDisplay = state.wordListDisplay.slice(0)
     console.log('unsorted wordListDisplay', wordListDisplay)
     wordListDisplay.sort((a, b) => sortWords(state.wordList[a.index], state.wordList[b.index]))
@@ -242,7 +261,7 @@ const rootReducer = (state, action) => {
     return Object.assign({ ...state }, {
       wordListDisplay
     })
-    // make
+  } // make
   default:
     return rootReducerHelper(state, action)
   }

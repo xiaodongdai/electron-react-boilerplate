@@ -7,7 +7,7 @@ import * as Actions from '../actions/actions';
 
 function mapStateToProps(state) {
   console.log('mapStateToProps: explain' , state)
-  return  {wordList: state.wordList || []}
+  return  {wordList: state.wordList || {}}
 }
 
 function mapDispatchToProps(dispatch) {

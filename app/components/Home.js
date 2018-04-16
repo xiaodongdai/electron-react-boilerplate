@@ -37,7 +37,7 @@ export default class Home extends Component<Props> {
 
   handleOnClickAsync() {
     //const {_word} = this.refs
-    console.log('value is:   ', this._queryWord)
+    console.log('value is:       ', this._queryWord)
     if (!this._queryWord || this._queryWord === '') {
       return
     }
@@ -65,32 +65,31 @@ export default class Home extends Component<Props> {
     addWord(this._queryWord)
   }
 
-  handleReview() {
+  handleReview(language) {
     let {
       startReview
     } = this.props
-    startReview()
+    startReview(language)
   }
 
   render() {
     let {explain, rankInfo, wordList, curState} = this.props
     // reviewData: curWord, wordLists, 
-
-    
-    let WordList = () => {
-      console.log('refresh wordlist!! !')
-      let items = wordList.map((item, idx) => {
+    let WordListLang = (props) => {
+      let {language} = props
+      return wordList[language].map((item, idx) => {
         let theClass = styles.wordList
-        console.log(`this._selectWord =${this._selectWord}, item.word=${item.word}`)
         if (this._selectedWord && this._selectedWord === item.word) {
-          console.log('word Selected!')
           theClass = styles.selectedWordList
         }
         return <li className={theClass} key={idx.toString()} onClick={() => {this.handleClickItem(item.word)}}>
           {item.word}
-        </li>
+        </li> 
       })
-      return (<ul>{items}</ul>)
+    }
+    // TODO: multiple languages:
+    let WordList = () => {
+      return (Object.keys(wordList).map(lang => <div><h4>{lang}</h4><ul><WordListLang language={lang}/></ul></div>))
     }
 
     return (
@@ -99,7 +98,8 @@ export default class Home extends Component<Props> {
           <TextField inputStyle={styles.wordInput}  label="Input the word" margin="normal" onChange={this._handleTextChange}/>
           <button type="button" onClick={this.handleOnClickAsync}>Query</button>
           <button type="button" onClick={this.handleAdd}>Add</button>
-          <button type="button" onClick={this.handleReview}>Review</button>
+          <button type="button" onClick={()=>this.handleReview('sv')}>Review:SV</button>
+          <button type="button" onClick={()=>this.handleReview('en')}>Review:EN</button>
         </div>
         <SplitPane split="vertical" allowResize={true} minSize={300} primary="second">
           <div className={styles.wordListContainer}>

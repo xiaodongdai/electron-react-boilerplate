@@ -85,17 +85,19 @@ console.log('end loading data')
 
 
 
-export function handleKnow(wordIndex) {
+export function handleKnow(wordIndex, language) {
   return {
     type: WORD_KNOW,
-    wordIndex
+    wordIndex,
+    language
   }
 }
 
-export function handleDontKnow(wordIndex) {
+export function handleDontKnow(wordIndex, language) {
   return {
     type: WORD_DONTKNOW,
-    wordIndex
+    wordIndex,
+    language
   }
 }
 
@@ -106,18 +108,22 @@ export function retrivedWordInfo(wordInfo) {
   }
 }
 
-export function startReview() {
+export function startReview(language) {
   return {
-    type: START_REVIEW
+    type: START_REVIEW,
+    language
   }
 }
 
-export function addWord(word) {
-  let cefr = cefr_words[word]
-  let subTitle = subtitle_words[word]
+export function addWord(word, language) {
+  console.log(`language=${language},  cefr_words[language]=${cefr_words[language]}`)
+  console.log('cefr_words:  ', cefr_words)
+  let cefr = cefr_words[language][word]
+  let subTitle = subtitle_words[language][word]
   // TODO, for phase, the lowest rank will be used.
   return {
     type: ADD_WORD,
+    language,
     word,
     ...subTitle,
     cefr,
@@ -171,49 +177,6 @@ function decodeFile(bufSpx) {
   return Speex.util.str2ab(waveData);
 }
 
-
-/*
-function lookupRes(mdd, file) {
-  console.log(`file1: ${file.filename}`)
-  return mdd.lookup(file.filename).then(raw => {
-    // if it is spx, we decode it
-    let suffix = file.filename.substr(file.filename.length - 4)
-    let buffer = null
-    let type = ''
-    console.log(`file2: ${file.filename}`)
-    switch(suffix) {
-      case '.spx':
-        let data = String.fromCharCode.apply(null, raw)
-        buffer = decodeFile(data)
-        console.log('buffer:', buffer )
-        type = 'audio/wav'
-        break
-      case '.mp3':
-        buffer = raw
-        type = 'audio/mp3'
-        break
-      case '.bmp':
-        buffer = raw
-        type = 'image/bmp'
-        break
-      case '.png':
-        buffer = raw
-        type = 'image/png'
-        break
-      case '.jpg':
-        buffer = raw
-        type = 'image/jpg'
-        break
-    }
-    let blob = new Blob([buffer], {type})
-    let objectUri = URL.createObjectURL(blob)
-    return {...file, objectUri}
-  })
-}
-*/
-
-
-
 function changeFontColor([originExplain]) {
   console.log('changeFontColor ' + originExplain)
   let explain = originExplain.replace('<font color="silver">', '<font color="black">')
@@ -243,9 +206,6 @@ function getExtFiles(explain) {
   console.log('files:  ', files)
   return files
 }
-
-
-
 
 function lookupMdd(mdd, files) {
   return Promise.all(files.map(file => mdd.lookup(file.filename)))
@@ -307,16 +267,21 @@ export function lookUpDictionary(word, filename, isMddExists = true) {
       .then(() => loadMdd(filename))
       .then(mdd => lookupMdd(mdd, localFiles))
       .then(results => replaceExplain(results, localExplain, localFiles))
+      .catch(e => {null, null})
   } else {
     return mdict.dictionary(filename + '.mdx').then(dictionary => dictionary.lookup(word))
       .then(changeFontColor)
-      .catch(e => {console.log(`error happened for  ${filename}: ${e} `)})
+      .then(explain => {
+        console.log('EXPLAIN ='+ explain)
+        return {explain}
+      })
+      .catch(e => {console.log(`error happened  for  ${filename}: ${e} `)})
   }
 }
 
 
 /*
-    explains: [
+    explainations: [
       {
         language: string,
         cefr: string,
@@ -329,8 +294,8 @@ export function lookUpDictionary(word, filename, isMddExists = true) {
       }
     ]
 */
-function getIndexOfLanguage(explains, lang) {
-  explains.forEach((explain, index) => {
+function getIndexOfLanguage(explainations, lang) {
+  explainations.forEach((explain, index) => {
     if(explain.language === lang) {
       return index
     }
@@ -345,39 +310,41 @@ export function queryAsync(word: string, review: bool = false) {
                         {name: 'en-ch-langdao-2015.6', mddExists: false, lang: 'en'}]
     Promise.all(dictionaries.map(dict => lookUpDictionary(word, dict.name, dict.mddExists)))
       .then(results => {
-        let {explains, files} = results.reduce((acc, cur, curIndex) => {
+        console.log('results= ', results)
+        let {explainations, files} = results.reduce((acc, cur, curIndex) => {
           if (cur === undefined || cur.explain === undefined) {
             return acc
           }
-
           // check if the language exists.
-          let explains = acc.explains
+          console.log('cur=  ', cur)
+          let explainations = acc.explainations
           let files = acc.files
-          let index = getIndexOfLanguage(acc.explains)
+          let index = getIndexOfLanguage(acc.explainations)
           if (index === -1) {
             let language = dictionaries[curIndex].lang
-            explains.push({
+            explainations.push({
               language,
               cefr:     cefr_words[language][word],
               rank:     subtitle_words[language][word],
               dictionaries: [{explain: cur.explain, dictionary: dictionaries[curIndex].name}],
             })
           } else {
-            acc.explains.dictionaries.push({explain: acc.explain, dictionary: dictionaries[curIndex].name})
+            acc.explainations.dictionaries.push({explain: acc.explain, dictionary: dictionaries[curIndex].name})
           }
 
-          cur.files.forEach(file => {
+          cur.files && cur.files.forEach(file => {
             if (acc.files.indexOf(file) === -1) {
               files.push(file)
             }
           })
 
-          return {explains, files}
-        }, {explains: [], files: []})
+          return {explainations, files}
+        }, {explainations: [], files: []})
 
-        console.log('explains: ', explains)
+        console.log('explainations:  ', explainations)
         dispatch(retrivedWordInfo({
-          explains,
+          word,
+          explainations,
           files,
           review,
         }))
