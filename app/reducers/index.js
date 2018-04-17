@@ -17,6 +17,7 @@ import {
 import {
   START_REVIEW,
   ADD_WORD,
+  REMOVE_WORD,
   WORD_KNOW,
   WORD_DONTKNOW,
   SORT_WORDS,
@@ -247,10 +248,50 @@ const rootReducer = (state, action) => {
 
     let wordList = {...state.wordList, ...newWordList}
     console.log('wordList:  ', wordList)
+
+    // change isAdded property
+    let explainations = state.wordInfo.explainations
+    explainations.forEach(e => {
+      if (e.language === language) {
+        e.isAdded = true
+      }
+    })
+    let wordInfo = {...state.wordInfo, explainations}
     return {
       ...state,
       wordList,
+      wordInfo
     }
+  }
+  case REMOVE_WORD:
+  {
+    let language = action.language
+    let word = action.word
+    let index = state.wordList[language].map(w=>w.word).indexOf(word)
+    if (index === -1) {
+      console.log('cannot find word: ' + word)
+      return state
+    } else {
+      const wordListLanguage = state.wordList[language].slice(0)
+      wordListLanguage.splice(index, 1)
+      let newWordList = {}
+      newWordList[language] = wordListLanguage
+      let wordList = {...state.wordList, ...newWordList}
+
+      let explainations = state.wordInfo.explainations
+      explainations.forEach(e => {
+        if (e.language === language) {
+          e.isAdded = false
+        }
+      })
+      let wordInfo = {...state.wordInfo, explainations}
+      return {
+        ...state,
+        wordList,
+        wordInfo
+      }
+    }
+
   }
   case SORT_WORDS:
   {

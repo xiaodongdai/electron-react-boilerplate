@@ -17,6 +17,7 @@ export class WordExplainations extends Component<Props> {
   constructor(props) {
     super(props)
     this.handleAddWord = this.handleAddWord.bind(this)
+    this.handleRemoveWord = this.handleRemoveWord.bind(this)
   }
 
   handleVoiceClick(file) {
@@ -27,6 +28,11 @@ export class WordExplainations extends Component<Props> {
   handleAddWord(word, language) {
     let {addWord} = this.props
     addWord(word, language)
+  }
+
+  handleRemoveWord(word, language) {
+    let {removeWord} = this.props
+    removeWord(word, language)
   }
 
   render() {
@@ -52,7 +58,7 @@ export class WordExplainations extends Component<Props> {
       let {dictionaries} = props
       return <div>
         {
-          dictionaries.map(explain4OneDictionary => <div>
+          dictionaries.map((explain4OneDictionary, idx) => <div key={idx}>
             Dictionary: {explain4OneDictionary.dictionary} <br/>
             <Explain4OneDictionary explain={explain4OneDictionary.explain}/>
           </div>)
@@ -62,12 +68,13 @@ export class WordExplainations extends Component<Props> {
 
     let self = this
     let AddButton = props => {
-      console.log(`addButton: ${props.isAdded} `)
+      console.log(`addButton: ${props.isAdded}  `)
       let text = props.isAdded ? `Remove from wordbook '${props.language}'` : `Add to wordbook '${props.language}'`
-      return <button type="button" onClick={() => {self.handleAddWord(props.word, props.language)}}>{text}</button>
+      let callbackFunc = props.isAdded ? self.handleRemoveWord : self.handleAddWord
+      return <button type="button" onClick={() => {callbackFunc(props.word, props.language)}}>{text}</button>
     }
 
-    console.log('WordExplainations  ')
+    console.log('WordExplainations    ')
     let {explainations, language, word} = this.props
     console.log(`explainations: ${explainations}`, explainations)
     if (!explainations) {
@@ -78,7 +85,7 @@ export class WordExplainations extends Component<Props> {
     if (language) {
       filteredExp = explainations.filter(exp => exp.language === language)
     }
-    console.log('filteredExp', filteredExp)
+    console.log('filteredExp ', filteredExp)
 
     return <div>
             {
@@ -94,7 +101,6 @@ export class WordExplainations extends Component<Props> {
                      </div>)
             }
           </div>
-
   }
 }
 
@@ -128,13 +134,10 @@ export default class PrimaryPane extends Component<Props> {
     queryAsync(word, true) // review = true
   }
 
-
-
   render() {
-    let {curState, wordInfo, reviewInfo, addWord} = this.props
+    let {curState, wordInfo, reviewInfo, addWord, removeWord} = this.props
 
     // TODO: we should add the event handler for links here.
-
     let Explain = props => Parser(wordInfo.explain || '', parserOptions)
     // find images or sounds in the text.
 
@@ -165,7 +168,11 @@ export default class PrimaryPane extends Component<Props> {
     }
   
     return curState === 'dictionary' ? 
-      <div className={styles.answer}><WordExplainations word={wordInfo.word} explainations={wordInfo.explainations} addWord={addWord}/></div> :
+      <div className={styles.answer}>
+        <WordExplainations word={wordInfo.word} 
+                           explainations={wordInfo.explainations}
+                           addWord={addWord}
+                           removeWord={removeWord}/></div> :
       <div className={styles.answer}><ReviewPane/></div>
   }
 }

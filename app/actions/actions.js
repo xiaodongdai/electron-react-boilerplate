@@ -20,10 +20,12 @@ type actionType = {
 
 export const RETRIVED_WORDINFO= 'RETRIVED_WORDINFO';
 export const ADD_WORD = 'ADD_WORD'
+export const REMOVE_WORD = 'REMOVE_WORD'
 export const SORT_WORDS = 'SORT_WORDS'
 export const START_REVIEW = 'START_REVIEW'
 export const WORD_KNOW = 'WORD_KNOW'
 export const WORD_DONTKNOW = 'WORD_DONTKNOW'
+
 // load cefr file
 let cefr_words = []
 let subtitle_words = []
@@ -115,6 +117,14 @@ export function startReview(language) {
   }
 }
 
+export function removeWord(word, language) {
+  return {
+    type: REMOVE_WORD,
+    language,
+    word
+  }
+}
+
 export function addWord(word, language) {
   console.log(`language=${language},  cefr_words[language]=${cefr_words[language]}`)
   console.log('cefr_words:  ', cefr_words)
@@ -143,7 +153,6 @@ export function sortWords() {
 } 
 
 function decodeFile(bufSpx) {
-  
   var stream, samples, st;
   var ogg, header, err;
   console.log('start decode       ', bufSpx)

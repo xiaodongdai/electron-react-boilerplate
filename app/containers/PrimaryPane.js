@@ -1,9 +1,10 @@
-// @flow
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+'use strict'
+
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 //import React, { Component } from 'react';
-import PrimaryPane from '../components/PrimaryPane';
-import * as Actions from '../actions/actions';
+import PrimaryPane from '../components/PrimaryPane'
+import * as Actions from '../actions/actions'
 
 function mapStateToProps(state) {
   console.log('mapStateToProps:  explain' , state)
