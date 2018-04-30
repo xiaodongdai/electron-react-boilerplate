@@ -42,6 +42,9 @@
       "main.prod.js.map",
       "package.json"
     ],
+    "extraFiles": [
+      "en_50k.txt"
+    ],
     "dmg": {
       "contents": [
         {
