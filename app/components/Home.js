@@ -37,7 +37,7 @@ export default class Home extends Component<Props> {
 
   handleOnClickAsync() {
     //const {_word} = this.refs
-    console.log('value is:       ', this._queryWord)
+    console.log('value is:        ', this._queryWord)
     if (!this._queryWord || this._queryWord === '') {
       return
     }
@@ -95,7 +95,7 @@ export default class Home extends Component<Props> {
     return (
       <SplitPane split="horizontal" allowResize={false} minSize={50} defaultSize={80}>
         <div className={styles.container} data-tid="container">
-          <TextField inputStyle={styles.wordInput}  label="Input the word" margin="normal" onChange={this._handleTextChange}/>
+          <TextField inputstyle={styles.wordInput}  label="Input the word" margin="normal" onChange={this._handleTextChange}/>
           <button type="button" onClick={this.handleOnClickAsync}>Query</button>
           <button type="button" onClick={this.handleAdd}>Add</button>
           <button type="button" onClick={()=>this.handleReview('sv')}>Review:SV</button>

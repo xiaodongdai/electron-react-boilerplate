@@ -21,7 +21,8 @@ import {
   WORD_KNOW,
   WORD_DONTKNOW,
   SORT_WORDS,
-  RETRIVED_WORDINFO 
+  RETRIVED_WORDINFO,
+  CHANGE_USER_COMMENTS
 
 } from '../actions/actions'
 
@@ -187,7 +188,7 @@ const wordKnow = (state, action) => {
     word.reviewedTimes += 1
     // set next review time.
     const nextDate = new Date()
-    console.log('reviewedTimes:   ' + word.reviewedTimes)
+    console.log('reviewedTimes:    ' + word.reviewedTimes)
     const days = fibonacci(word.reviewedTimes)
 
     word.nextReviewAt = nextDate.setDate(nextDate.getDate() + days)
@@ -219,10 +220,15 @@ const rootReducer = (state, action) => {
     for(let i=0; i<newWordInfo.explainations.length; i+=1) {
       let exp = newWordInfo.explainations[i]
       let language = exp.language
-      exp.isAdded = state.wordList[language].map(w => w.word).indexOf(newWordInfo.word) !== -1
+      let index = state.wordList[language].map(w => w.word).indexOf(newWordInfo.word)
+      exp.isAdded = index !== -1
+      if (index !== -1) {
+        exp.userComments = state.wordList[language][index].userComments
+      }
+      
     }
 
-    console.log('newWordInfo:=   ', newWordInfo)
+    console.log('newWordInfo:=    ', newWordInfo)
     return {...state, curState, reviewInfo, wordInfo: newWordInfo}
   }
 
@@ -291,8 +297,36 @@ const rootReducer = (state, action) => {
         wordInfo
       }
     }
-
   }
+  case CHANGE_USER_COMMENTS:
+  {
+    let language = action.language
+    let word = action.word
+    let index = state.wordList[language].map(w=>w.word).indexOf(word)
+    if (index === -1) {
+      console.log('cannot find word: ' + word)
+      return state
+    } else {
+      const wordListLanguage = state.wordList[language].slice(0)
+      wordListLanguage[index].userComments = action.userComments
+      let newWordList = {}
+      newWordList[language] = wordListLanguage
+      let wordList = {...state.wordList, ...newWordList}
+      let explainations = state.wordInfo.explainations
+      explainations.forEach(e => {
+        if (e.language === language) {
+          e.userComments = action.userComments
+        }
+      })
+      let wordInfo = {...state.wordInfo, explainations}
+      return {
+        ...state,
+        wordList,
+        wordInfo
+      }
+    } 
+  }
+
   case SORT_WORDS:
   {
     let wordListDisplay = state.wordListDisplay.slice(0)

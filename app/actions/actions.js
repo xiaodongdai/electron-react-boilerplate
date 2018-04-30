@@ -25,7 +25,7 @@ export const SORT_WORDS = 'SORT_WORDS'
 export const START_REVIEW = 'START_REVIEW'
 export const WORD_KNOW = 'WORD_KNOW'
 export const WORD_DONTKNOW = 'WORD_DONTKNOW'
-
+export const CHANGE_USER_COMMENTS = 'CHANGE_USER_COMMENTS'
 // load cefr file
 let cefr_words = []
 let subtitle_words = []
@@ -83,10 +83,6 @@ loadFreq(subtitle_words, 'en')
 console.log('end loading data')
 
 
-
-
-
-
 export function handleKnow(wordIndex, language) {
   return {
     type: WORD_KNOW,
@@ -129,13 +125,13 @@ export function addWord(word, language) {
   console.log(`language=${language},  cefr_words[language]=${cefr_words[language]}`)
   console.log('cefr_words:  ', cefr_words)
   let cefr = cefr_words[language][word]
-  let subTitle = subtitle_words[language][word]
+  let rank = subtitle_words[language][word]
   // TODO, for phase, the lowest rank will be used.
   return {
     type: ADD_WORD,
     language,
     word,
-    ...subTitle,
+    rank,
     cefr,
     addedAt:  Date.now(),
     // tomorrow = new Date()
@@ -143,6 +139,16 @@ export function addWord(word, language) {
     nextReviewAt: Date.now(),
     reviewedTimes: 0,
     userComments: ''
+  }
+}
+
+export function changeUserComments(commentsInfo) {
+  let {word, language, userComments} = commentsInfo
+  return {
+    type: CHANGE_USER_COMMENTS,
+    word,
+    language,
+    userComments
   }
 }
 
@@ -155,7 +161,7 @@ export function sortWords() {
 function decodeFile(bufSpx) {
   var stream, samples, st;
   var ogg, header, err;
-  console.log('start decode       ', bufSpx)
+  console.log('start decode        ', bufSpx)
   ogg = new Ogg(bufSpx, {file: true});
   console.log('ogg:  ', ogg)
   ogg.demux();
