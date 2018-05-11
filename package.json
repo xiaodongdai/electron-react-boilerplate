@@ -1,7 +1,7 @@
 {
-  "name": "electron-react-boilerplate",
-  "productName": "ElectronReact",
-  "version": "0.13.1",
+  "name": "magic-dict",
+  "productName": "Magic Dict",
+  "version": "0.0.1",
   "description": "Electron application boilerplate based on React, React Router, Webpack, React Hot Loader for rapid application development",
   "scripts": {
     "build": "concurrently \"npm run build-main\" \"npm run build-renderer\"",
@@ -32,8 +32,8 @@
   },
   "browserslist": "electron 1.6",
   "build": {
-    "productName": "ElectronReact",
-    "appId": "org.develar.ElectronReact",
+    "productName": "MagicDict",
+    "appId": "org.develar.MagicDict",
     "files": [
       "dist/",
       "node_modules/",
@@ -43,8 +43,15 @@
       "package.json"
     ],
     "extraFiles": [
-      "resource/en_50k.txt",
-
+      "resources/wordbook/",
+      "resources/wordbook/wordslist.obj",
+      "resources/dicts/en-ch-langdao-2015.6.mdx",
+      "resources/dicts/sv-en-folkets-lexikon.mdd",
+      "resources/dicts/sv-en-folkets-lexikon.mdx",
+      "resources/cefr/en.txt",
+      "resources/cefr/sv.txt",
+      "resources/freq/en.txt",
+      "resources/freq/sv.txt"
     ],
     "dmg": {
       "contents": [

@@ -6,9 +6,19 @@ import { configureStore, history } from './store/configureStore'
 import './app.global.css'
 import * as fs from 'fs'
 
-let initialState = null
+
+let RESOURCE_PATH = 'resources/'
+if (process.env.NODE_ENV === 'production') {
+  RESOURCE_PATH = process.resourcesPath + '/'
+}
+
+let WORDLIST_PATH = RESOURCE_PATH + 'wordbook/wordsList.obj'
+
+
+
+let initialState = {curState: 'dictionary'}
 try {
-  let strObj = fs.readFileSync('./wordsList.obj', 'utf8')
+  let strObj = fs.readFileSync(WORDLIST_PATH, 'utf8')
   if (strObj && strObj !== '') {
     let wordListDisplay = []
     let wordList = JSON.parse(strObj)
@@ -22,7 +32,7 @@ try {
     initialState = {wordList, wordListDisplay, curState: 'dictionary'}
   }
 }catch (e) {
-  console.log('cannot read wordList.obj ')
+  console.log('cannot read wordList.obj  ')
 }
 
 
@@ -37,8 +47,8 @@ let unsubscribe = store.subscribe(() => {
   if (prevWordList === null) {
     prevWordList = curWordList
   } else if (curWordList !== prevWordList) {
-    console.log('wordList changed1， writting to file! ')
-    fs.writeFile('./wordsList.obj', JSON.stringify(curWordList), err => {
+    console.log('wordList changed1， writting to file!  ')
+    fs.writeFile(WORDLIST_PATH, JSON.stringify(curWordList), err => {
       if (err) {
         console.log(err)
       }

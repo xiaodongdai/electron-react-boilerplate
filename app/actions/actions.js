@@ -18,6 +18,16 @@ type actionType = {
   +type: string
 };
 
+
+
+let RESOURCE_PATH = 'resources'
+if (process.env.NODE_ENV === 'production') {
+  RESOURCE_PATH = process.resourcesPath
+}
+
+
+const DICT_PATH = RESOURCE_PATH + '/dicts/'
+
 export const RETRIVED_WORDINFO= 'RETRIVED_WORDINFO';
 export const ADD_WORD = 'ADD_WORD'
 export const REMOVE_WORD = 'REMOVE_WORD'
@@ -34,7 +44,7 @@ let subtitle_words = []
 function loadCefr(cefrArr, lang) {
   cefrArr[lang] = []
   csv({noheader:true, delimiter: ' '})
-  .fromFile(`cefr_words_${lang}.csv`)
+  .fromFile(`${RESOURCE_PATH}/cefr/${lang}.csv`)
   .on('json',jsonObj=>{
     // console.log(jsonObj)
     if (cefrArr[lang][jsonObj.field4] === undefined) {
@@ -48,7 +58,7 @@ function loadCefr(cefrArr, lang) {
     }
   })
   .on('done',error=>{
-    console.log('done')
+    console.log('done', error)
   })
 }
 
@@ -56,7 +66,7 @@ function loadFreq(subTitleArr, lang) {
   subTitleArr[lang] = []
   let lineNumber = 0
   csv({noheader:true, delimiter: ' '})
-  .fromFile(`${lang}_50k.txt`)
+  .fromFile(`${RESOURCE_PATH}/freq/${lang}.txt`)
   .on('json',jsonObj=>{
     // console.log(jsonObj)
     let rank = lineNumber
@@ -67,13 +77,13 @@ function loadFreq(subTitleArr, lang) {
 
     lineNumber += 1
   })
-  .on('done',(error)=>{
-    console.log('done ')
+  .on('done',error=>{
+    console.log('done ', error)
   })
 }
 
 // load Swedish data
-console.log('start loading data')
+console.log('start loading data ')
 loadCefr(cefr_words, 'sv')
 loadFreq(subtitle_words, 'sv')
 console.log(`cefr_words:  ${cefr_words['sv']}`)
@@ -272,7 +282,6 @@ function replaceExplain(raws, explain, files) {
 }
 
 export function lookUpDictionary(word, filename, isMddExists = true) {
-
   if (isMddExists) {
     let localExplain = ''
     let localFiles = []
@@ -319,11 +328,10 @@ function getIndexOfLanguage(explainations, lang) {
 }
 
 export function queryAsync(word: string, review: bool = false) {
-  let lookup = lookUpDictionary
   return (dispatch: (action: actionType) => void) => {
     let dictionaries = [{name: 'sv-en-folkets-lexikon', mddExists: true, lang: 'sv'},
                         {name: 'en-ch-langdao-2015.6', mddExists: false, lang: 'en'}]
-    Promise.all(dictionaries.map(dict => lookUpDictionary(word, dict.name, dict.mddExists)))
+    Promise.all(dictionaries.map(dict => lookUpDictionary(word, DICT_PATH + dict.name, dict.mddExists)))
       .then(results => {
         console.log('results= ', results)
         let {explainations, files} = results.reduce((acc, cur, curIndex) => {

@@ -220,7 +220,11 @@ const rootReducer = (state, action) => {
     for(let i=0; i<newWordInfo.explainations.length; i+=1) {
       let exp = newWordInfo.explainations[i]
       let language = exp.language
-      let index = state.wordList[language].map(w => w.word).indexOf(newWordInfo.word)
+      let index = -1
+      if (state.wordList && state.wordList[language]) {
+        index = state.wordList[language].map(w => w.word).indexOf(newWordInfo.word)
+      }
+
       exp.isAdded = index !== -1
       if (index !== -1) {
         exp.userComments = state.wordList[language][index].userComments
@@ -228,14 +232,18 @@ const rootReducer = (state, action) => {
       
     }
 
-    console.log('newWordInfo:=    ', newWordInfo)
+    console.log('newWordInfo:=     ', newWordInfo)
     return {...state, curState, reviewInfo, wordInfo: newWordInfo}
   }
 
   case ADD_WORD:
   {
     let language = action.language
-    const wordListLanguage = state.wordList[language].slice(0)
+    let wordListLanguage = []
+    if (state.wordList && state.wordList[language]) {
+      wordListLanguage = state.wordList[language].slice(0)
+    }
+    
     const index = wordListLanguage.length
     wordListLanguage.push({
       word: action.word,
