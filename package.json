@@ -43,7 +43,8 @@
       "package.json"
     ],
     "extraFiles": [
-      "en_50k.txt"
+      "resource/en_50k.txt",
+
     ],
     "dmg": {
       "contents": [
